@@ -1,0 +1,25 @@
+.nav-bar{
+    display: flex;
+    width: auto;
+    height: 85px;
+    background-color: #FDDD5C;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding-inline: 5%;
+    align-items: center;
+}
+
+h1{
+    font-family: 'Bahnschrift';
+    font-size: 40px;
+    margin-right: 5%;
+}
+
+a{
+    color: black;
+    margin-right: 3%;
+    font-family: 'Inter';
+    font-size: 20px;
+    text-decoration: underline;
+}
+

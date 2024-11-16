@@ -1,0 +1,33 @@
+body{
+    background-color: #CDE3E8;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main{
+    width: 1350px;
+    height: 770px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.main-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header{
+    font-family: 'Inter';
+    font-size: 35;
+    font-weight: 600;
+}
+
+.sub-container-wrapper{
+    display: flex;
+    gap: 50px;
+}
