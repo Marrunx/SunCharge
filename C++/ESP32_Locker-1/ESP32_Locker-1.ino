@@ -11,7 +11,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN); // Create MFRC522 instance
 
 const char* ssid = "Marron";           // Your WiFi SSID
 const char* password = "543210123";    // Your WiFi password
-const char* serverURL = "http://192.168.0.117/SunChargeV2/function/scan_uid_locker-2.php"; // URL to PHP script
+const char* serverURL = "http://192.168.0.117/SunChargeV2/function/scan_uid_locker-1.php"; // URL to PHP script
 
 String lastGrantedUID = "";   // Store the UID that was last granted access
 bool accessGranted = false;  // Track if access is currently granted
