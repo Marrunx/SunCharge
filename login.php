@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 $conn = mysqli_connect('localhost', 'root', '', 'suncharge');
 
 $username = $_GET['username'];
@@ -15,9 +15,10 @@ if($result < 1){
     window.location.href = 'login.html';
     </script>";
 }else{
+    $_SESSION['status'] = 'logged-in';
     echo"
     <script>
-        window.location.href = 'admin/home.html';
+        window.location.href = 'admin/cardManager.php';
     </script>
     ";
 }

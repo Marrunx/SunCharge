@@ -1,3 +1,10 @@
+<?php 
+session_start();
+if(empty($_SESSION['status'])){
+    header('Location: ../login.html');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +16,7 @@
     <link rel="stylesheet" href="style/accountSettings.css">
 
 
-    <title>SunCharge | Account Settings </title>
+    <title>SunCharge | Settings </title>
 </head>
 
 <body>
@@ -18,19 +25,115 @@
             <h1>SunCharge</h1>
             
             <a href="cardManager.php">Card Manager</a>
-            <a href="">Account Settings</a>
+            <a href="">Settings</a>
             
             <div>
-            <a href="">Logout</a>
+            <a href="logout.php" id="log-out">Logout</a>
             </div>
         </div>
 
         <div class="body">
             <div class="side-nav">
-                <a href=""><p>Change username and password</p></a>
-                <a href=""><p>Locker settings</p></a>
+                <p id="user-settings-btn">Change username and password</p>
+                <p id="locker-settings-btn">Locker settings</p>
+            </div>
+
+            <div class="selected-content">
+                <div class="user-settings" id="user-settings">
+                    <h1>Administrator Settings</h1>
+                    <form action="" method="post" class="user-forms">
+                        <input type="text" name="username" id="" class="input-txt" placeholder="New Username">
+                        <input type="password" name="password" class="input-txt" placeholder="New Password">
+                        <input type="password" name="old-password" class="input-txt" placeholder="Old password">
+                        <input type="submit" name="save-user" value="Save Changes" class="save-btn">
+                    </form>
+                </div>
+
+                <div class="locker-settings" id="locker-settings">
+                    <h1>Locker Settings</h1>
+                    <form action="" method="post" class="locker-forms">
+                        <input type="text" id="" placeholder="Locker 1 UID" class="input-txt" name="locker1">
+                        <input type="text" placeholder="Locker 2 UID" class="input-txt" name="locker2">
+                        <input type="submit" class="save-btn" name="save-locker" value="Save changes">
+                    </form>
+                </div>
             </div>
         </div>
+
+
     </div>
 </body>
+
+<script src="javascript/settings.js" defer></script>
+</html>
+
+
+<?php
+$conn = mysqli_connect('localhost', 'root', '', 'suncharge');
+
+//save admin changes
+if(isset($_POST['save-user'])){
+    //get all input values
+    $username = $_POST['username'];
+    $newPassword = $_POST['password'];
+    $oldPassword = $_POST['old-password'];
+
+    //check if old password matches with password in database
+    $sqlCheckPw = "SELECT * FROM admin WHERE password = '$oldPassword'";
+    $qryCheckPw = mysqli_query($conn, $sqlCheckPw);
+
+    if(empty($_POST['username']) && empty($_POST['password'])){
+        echo"
+        <script>
+            alert('Insert at least new username or new password');
+        </script>
+        ";
+    }else if($checkPwResult = mysqli_num_rows($qryCheckPw) < 1){
+        echo"
+        <script>
+            alert('Password does not match');
+        </script>
+        ";
+    }else{
+        if(!empty($_POST['username']) && !empty($_POST['password'])){
+            $updateSql = "UPDATE admin SET username = '$username', password = '$newPassword' WHERE id=0";
+            $updateQry = mysqli_query($conn, $updateSql);
+
+            echo"
+            <script>
+                alert('Changes saved successfully');
+            </script>
+            ";
+        }else if(!empty($_POST['username']) && empty($_POST['password'])){
+            $updateSql = "UPDATE admin SET username = '$username' WHERE id=0";
+            $updateQry = mysqli_query($conn, $updateSql);
+
+            echo"
+            <script>
+                alert('Changes saved successfully');
+            </script>
+            ";
+        }else if(empty($_POST['username']) && !empty($_POST['password'])){
+            $updateSql = "UPDATE admin SET password = '$newPassword' WHERE id=0";
+            $updateQry = mysqli_query($conn, $updateSql);
+
+            echo"
+            <script>
+                alert('Changes saved successfully');
+            </script>
+            ";
+        }
+    }
+}
+
+
+//save locker changes
+if(isset($_POST['save-locker'])){
+
+    $locker1 = $_POST['locker1'];
+    $locker2 = $_POST['locker2'];
+
+}
+?>
+
 

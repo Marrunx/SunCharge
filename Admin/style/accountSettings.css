@@ -1,26 +1,111 @@
 .body{
     width: 100%;
     height: 90%;
-    display: block;
+    display: flex;
 }
 
 .side-nav{
+    background-color: #FDDD5C;
     width: 20%;
     height: 99%;
-    border-right: solid 4px rgba(0, 0, 0, 0.25);
     display: block;
-}
-
-.side-nav-content{
-    width: 100%;
-    height: 70%;
-    border: solid;
+    overflow: hidden;
+    border-bottom-left-radius: 15px;
 }
 
 .side-nav p{
     width: 100%;
     height: 70px;
-    margin-top: 10px;
+    margin: 0;
     text-align: center;
     align-content: center;
+    font-family: 'Inter';
+    font-weight: 500;
+    text-decoration: underline;
+    transition: 300ms;
+}
+
+.side-nav p:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.15);
+    transition: 300ms;
+}
+
+.selected-content{
+    width: 80%;
+    height: 98%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-right-radius: 15px;
+}
+
+.user-settings{
+    width: 460px;
+    height: 400px;
+    border: solid 2px rgba(0, 0, 0, 0.4);
+    box-shadow: -9px 14px 7px 6px rgba(0, 0, 0, 0.15);
+    display: block;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.user-forms{
+    font-family: 'Inter';
+    font-size: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-txt{
+    width: 303px;
+    font-family: 'Inter';
+    font-size: 20px;
+    height: 45px;
+    border: solid 2px rgba(0, 0, 0, 0.40);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    padding-inline: 10px;
+}
+
+.save-btn{
+    font-size: 18px;
+    width: 160px;
+    height: 36px;
+    border: solid 0px;
+    border-radius: 12px;
+    background-color: #F6C600;
+    transition: 300ms;
+}
+
+.save-btn:hover{
+    background-color: #FFFFD2;
+    transition: 300ms;
+}
+
+.locker-settings{
+    width: 460px;
+    height: 350px;
+    border: solid 2px rgba(0, 0, 0, 0.4);
+    display: none;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: -9px 14px 7px 6px rgba(0, 0, 0, 0.15);
+}
+
+.locker-forms{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+
+.user-confirm-popup{
+    background-color: white;
+    width: 400px;
+    height: 100px;
+    border: solid;
+    margin: 0;
 }

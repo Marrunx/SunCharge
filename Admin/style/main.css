@@ -12,6 +12,7 @@ body{
     height: 770px;
     border-radius: 15px;
     background-color: white;
+    box-shadow: -17px 21px 26px 15px rgba(0, 0, 0, 0.25);
 }
 
 .main-body{

@@ -129,10 +129,30 @@ function historyPopUp(){
     })
 }
 
+function salesPopUp(){
+    const salesBtn = document.getElementById('sales-btn');
+    const salesClose = document.getElementById('sales-close');
+
+    const dimBackground = document.getElementById('dim-background');
+    const salesWindow = document.getElementById('sales-main');
+
+    salesBtn.addEventListener('click', ()=>{
+        dimBackground.style.display = 'flex';
+        salesWindow.style.display = 'block';
+    })
+
+    salesClose.addEventListener('click', ()=>{
+        dimBackground.style.display = 'none';
+        salesWindow.style.display = 'none';
+    })
+
+}
+
 rowSelector();
 
 deployPopUp();
 deployReturn();
 historyPopUp();
+salesPopUp();
 
 

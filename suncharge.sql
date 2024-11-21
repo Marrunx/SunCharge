@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2024 at 06:37 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
+-- Generation Time: Nov 20, 2024 at 02:17 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,16 +51,17 @@ CREATE TABLE `tbl_card` (
   `card_uid` varchar(20) NOT NULL,
   `used_by` varchar(50) DEFAULT NULL,
   `studentID` int(11) DEFAULT NULL,
-  `time_taken` datetime DEFAULT current_timestamp()
+  `time_taken` datetime DEFAULT current_timestamp(),
+  `locker_number` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_card`
 --
 
-INSERT INTO `tbl_card` (`card_number`, `card_uid`, `used_by`, `studentID`, `time_taken`) VALUES
-(1, '437939bb', 'Marlon', 202110208, NULL),
-(2, '49c8b779 ', 'Ian', 202110210, NULL);
+INSERT INTO `tbl_card` (`card_number`, `card_uid`, `used_by`, `studentID`, `time_taken`, `locker_number`) VALUES
+(1, '437939bb', 'Christian Oliver Santarin', 202110157, '2024-11-20 21:10:01', '1'),
+(2, '49c8b779 ', NULL, NULL, NULL, '2');
 
 -- --------------------------------------------------------
 
@@ -86,7 +87,12 @@ INSERT INTO `tbl_history` (`id`, `date`, `card_number`, `name`, `student_id`, `t
 (1001, '2024-11-14', 3, 'Christian Oliver Santarin', 202110157, '2024-11-14 10:20:02', '2024-11-14 10:20:02'),
 (1002, '2024-11-14', 2, 'Marlon Bautista', 0, '2024-11-10 21:10:04', '2024-11-14 17:49:16'),
 (1003, '2024-11-14', 1, 'Christian Oliver Santarin', 202110157, '2024-11-14 17:49:32', '2024-11-14 17:50:11'),
-(1004, '2024-11-15', 1, 'Marlon Bautista', 202110158, '2024-11-15 04:25:53', '2024-11-15 04:26:03');
+(1004, '2024-11-15', 1, 'Marlon Bautista', 202110158, '2024-11-15 04:25:53', '2024-11-15 04:26:03'),
+(1005, '2024-11-18', 1, 'Marlon', 202110208, '0000-00-00 00:00:00', '2024-11-18 13:05:08'),
+(1006, '2024-11-18', 2, 'Ian', 202110210, '0000-00-00 00:00:00', '2024-11-18 13:05:11'),
+(1007, '2024-11-19', 1, 'Christian Oliver Santarin', 202110157, '2024-11-19 20:46:49', '2024-11-19 20:46:55'),
+(1008, '2024-11-19', 2, 'Marlon Bautista', 202110158, '2024-11-19 21:32:16', '2024-11-19 21:38:20'),
+(1009, '2024-11-19', 1, 'Christian Oliver Santarin', 202110157, '2024-11-19 21:39:28', '2024-11-19 21:39:37');
 
 -- --------------------------------------------------------
 
@@ -107,7 +113,8 @@ CREATE TABLE `tbl_sales` (
 --
 
 INSERT INTO `tbl_sales` (`id`, `date`, `charger1`, `charger2`, `charger3`) VALUES
-(1, '2024-11-17', 5, 0, 0);
+(1, '2024-11-17', 5, 0, 0),
+(2, '2024-11-19', 3, 9, 0);
 
 -- --------------------------------------------------------
 
@@ -178,13 +185,13 @@ ALTER TABLE `tbl_card`
 -- AUTO_INCREMENT for table `tbl_history`
 --
 ALTER TABLE `tbl_history`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1005;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1010;
 
 --
 -- AUTO_INCREMENT for table `tbl_sales`
 --
 ALTER TABLE `tbl_sales`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

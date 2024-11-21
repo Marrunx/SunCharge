@@ -1,3 +1,10 @@
+<?php 
+session_start();
+if(empty($_SESSION['status'])){
+    header('Location: ../login.html');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,10 +24,10 @@
             <h1>SunCharge</h1>
             
             <a href="">Card Manager</a>
-            <a href="accountSettings.php">Account Settings</a>
+            <a href="accountSettings.php">Settings</a>
             
             <div>
-            <a href="">Logout</a>
+            <a href="logout.php" id="log-out">Logout</a>
             </div>
         </div>
 
@@ -37,6 +44,7 @@
                                 <th>Card No.</th>
                                 <th>Used by</th>
                                 <th>Time Taken</th>
+                                <th>Locker Number</th>
                             </thead>
 
                             <tbody>
@@ -66,6 +74,7 @@
                                     <td><?php echo $cardNumber;?></td>
                                     <td><?php echo $cardUser;?></td>
                                     <td><?php echo $hours12;?></td>
+                                    <td><?php echo $result['locker_number']?></td>
 
                                 </tr>
                                 <?php }?>
@@ -94,6 +103,7 @@
                         <button class="deploy-btn" id="deploy-btn">Deploy Card</button>
                         <button class="return-btn" id="return-btn">Return Card</button>
                     </div>
+                    <p class="sales" id="sales-btn">Sales report</p>
                     <p class="history" id="history-btn">History</p>
                 </div>
             </div> 
@@ -102,7 +112,7 @@
         </div>
     </div>
 
-    <!--Deploy pop up-->
+    
     <div class="dim-background" id="dim-background"></div>
 
        <!--History-->
@@ -156,6 +166,50 @@
         </div>
     </div>
 
+
+    <!--Sales report window-->
+    <div class="sales-main" id="sales-main">
+
+        <div class="sales-head">
+            <h1>Sales</h1>
+            <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="sales-close">
+        </div>
+
+        <div class="sales-tbl-head-container">
+            <table class="sales-tbl-head">
+                <thead class="sales-tbl-body">
+                    <th>Date</th>
+                    <th>Locker Chager 1</th>
+                    <th>Locker Charger 2</th>
+                </thead>
+            </table>
+        </div>
+
+        <div class="sales-scrollable-body">
+            <table class="sales-tbl-body">
+                <tbody>
+                    <?php 
+                    //get sales from database
+                    $sqlSales = "SELECT * FROM tbl_sales";
+                    $qrySales = mysqli_query($conn, $sqlSales);
+                    while($resultSales = mysqli_fetch_assoc($qrySales)){
+
+                        $dateSales = $resultSales['date'];
+                        $charger1Sales = $resultSales['charger1'];
+                        $charger2Sales = $resultSales['charger2'];
+                    ?>
+                    <tr>
+                        <td><?php echo$dateSales;?></td>
+                        <td>₱ <?php echo$charger1Sales?></td>
+                        <td>₱ <?php echo$charger2Sales?></td>
+                    </tr>
+                    <?php }?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--Deploy pop up-->
     <div class="deploy-popUp" id="deploy-popUp">
         <div class="deploy-header">
             <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="close-btn">

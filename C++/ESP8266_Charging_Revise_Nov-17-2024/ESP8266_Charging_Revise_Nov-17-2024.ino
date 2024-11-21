@@ -12,17 +12,18 @@ const char* ssid = "Marron";              // Your WiFi SSID
 const char* password = "543210123";       // Your WiFi password
 
 // Server URL
-const char* serverName = "http://192.168.0.117/SunChargeV2/function/send_sales_c1.php"; // Replace with your actual URL C:\xampp\htdocs\SunChargeV2\function
+const char* serverName = "http://192.168.0.117/SunChargeV2/function/send_sales_c1.php"; // Replace with your actual URL
 
 // Data to be sent
 int charging1 = 0;       // Value to be sent to server for charging1
 
+int relayPin = D5;       // Relay connected to D5
 int coinSlotStatus;
-int pulse = 0; // Coin pulse counter
-int remainingTime = 0; // Time remaining in seconds
+int pulse = 0;           // Coin pulse counter
+int remainingTime = 0;   // Time remaining in seconds
 
 // Variables to accumulate charging values
-unsigned long lastSendTime = 0; // Time of last sending
+unsigned long lastSendTime = 0;         // Time of last sending
 const unsigned long sendInterval = 30000; // Send data every 30 seconds
 
 unsigned long lastMillis = 0;
@@ -30,11 +31,15 @@ const int COIN_TO_SECONDS = 60; // Each coin pulse adds 60 seconds (1 minute)
 
 boolean balance = false;
 boolean noCoin = false;
+boolean relayState = false; // Tracks if the relay is ON or OFF
 TM1637Display display(CLK, DIO);
 
 void setup() {
   Serial.begin(9600); // Start serial communication
   Serial.println("Connecting to WiFi...");
+
+  pinMode(relayPin, OUTPUT);
+  digitalWrite(relayPin, LOW); // Ensure relay is off at start
 
   pinMode(coinSlot, INPUT_PULLUP); // Coin slot setup
 
@@ -67,15 +72,23 @@ void loop() {
     balance = true;
     remainingTime += COIN_TO_SECONDS; // Add 1 minute for each coin detected
     Serial.println("Coin detected! Adding time...");
+    relayState = true; // Ensure the relay is set to ON
+    digitalWrite(relayPin, HIGH); // Turn on the relay
   }
 
-  // Charging countdown if remaining time is more than zero
+  // Manage relay and countdown
   if (remainingTime > 0 && millis() - lastMillis >= 1000 && balance) {
     lastMillis = millis();
     remainingTime--;
 
     int minutes = remainingTime / 60;
     int seconds = remainingTime % 60;
+
+    // Ensure relay is ON
+    if (!relayState) {
+      digitalWrite(relayPin, HIGH);
+      relayState = true;
+    }
 
     // Print to serial monitor
     Serial.print("Remaining time: ");
@@ -85,6 +98,13 @@ void loop() {
 
     // Display on 7-segment display
     display.showNumberDecEx(minutes * 100 + seconds, 0b11100000, true);  // Show MM:SS
+  } else if (remainingTime <= 0 && relayState) {
+    // Turn off the relay only once when time runs out
+    digitalWrite(relayPin, LOW);
+    relayState = false; // Update relay state
+    balance = false;    // Reset balance state
+    Serial.println("Time is up! Relay turned off."); // Print only once
+    display.showNumberDec(0, true); // Display 0 on 7-segment
   }
 
   // Send pulse data every 30 seconds

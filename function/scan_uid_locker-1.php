@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Check if the card exists in the database
-    $stmt = $conn->prepare("SELECT card_uid, used_by FROM tbl_card WHERE card_uid = ?");
+    $stmt = $conn->prepare("SELECT card_uid, locker_number, used_by FROM tbl_card WHERE card_uid = ?");
     $stmt->bind_param("s", $card_uid);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -37,26 +37,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
 
-        // Check if the card is assigned to charger1
-        if ($row['used_by'] === "charger1") {
+        // Check if the card UID matches the assigned locker number
+        if ($row['locker_number'] === "1") {
+            // If the card matches the locker number, grant access
             echo json_encode([
                 "status" => "success",
                 "message" => "Access granted for charger1",
-                "used_by" => "charger1"
+                "locker_number" => "charger1",
+                "used_by" => $row['used_by']  // Display the name of the user
             ]);
-        } 
-        // Check if the card is in use by another charger
-        else if ($row['used_by'] !== null) {
+        } else {
+            // If the card UID does not match the assigned locker number
             echo json_encode([
-                "status" => "in_use",
-                "message" => "Card is already assigned to " . $row['used_by']
-            ]);
-        } 
-        // Card is unassigned, no further action here
-        else {
-            echo json_encode([
-                "status" => "not_assigned",
-                "message" => "Card is not yet assigned to a charger"
+                "status" => "access_denied",
+                "message" => "Card UID does not match assigned locker number"
             ]);
         }
     } else {

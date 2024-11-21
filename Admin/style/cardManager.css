@@ -56,12 +56,16 @@ tbody tr{
     align-items: center;
 }
 
-.history{
+.sales, .history{
     font-family: 'Inter';
     font-size: 20px;
     text-decoration: underline;
-    margin-top: 190px;
     cursor: pointer;
+}
+
+.sales{
+    margin-top: 145px;
+    margin-bottom: 0;
 }
 
 .action-container{
@@ -316,6 +320,69 @@ tbody tr{
 }
 
 .history-scrollable-body td{
+    padding: 20px;
+    border-bottom: solid 2px rgba(0, 0, 0, 0.15);
+}
+
+/*Sales window*/
+.sales-main{
+    display: none;
+    width: 715px;
+    height: 694px;
+    background-color: white;
+    border-radius: 20px;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.sales-head{
+    width: 100%;
+    height: 85px;
+    display: flex;
+    border-radius: 19px 19px 0px 0px;
+    align-content: center;
+    background-color: #FDDD5C;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sales-head h1{
+    margin: 0;
+    margin-left: 20px;
+}
+
+.sales-tbl-head{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border-bottom: solid 2px rgba(0, 0, 0, 0.25);
+}
+
+.sales-tbl-head th{
+    font-family: 'Inter';
+    padding-block: 20px;
+    font-size: 25px;
+}
+
+.sales-scrollable-body{
+    width: 100%;
+    display: block;
+    max-height: 562px;
+    overflow-y: scroll;
+}
+
+.sales-scrollable-body table{
+    font-family: 'Inter';
+    font-size: 20px;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.sales-scrollable-body td{
     padding: 20px;
     border-bottom: solid 2px rgba(0, 0, 0, 0.15);
 }
