@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2024 at 02:17 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Nov 22, 2024 at 01:41 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -60,8 +60,8 @@ CREATE TABLE `tbl_card` (
 --
 
 INSERT INTO `tbl_card` (`card_number`, `card_uid`, `used_by`, `studentID`, `time_taken`, `locker_number`) VALUES
-(1, '437939bb', 'Christian Oliver Santarin', 202110157, '2024-11-20 21:10:01', '1'),
-(2, '49c8b779 ', NULL, NULL, NULL, '2');
+(1, '437939bb', NULL, NULL, NULL, '1'),
+(2, '49c8b779 ', 'Ian Santarin', NULL, NULL, '2');
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,10 @@ INSERT INTO `tbl_history` (`id`, `date`, `card_number`, `name`, `student_id`, `t
 (1006, '2024-11-18', 2, 'Ian', 202110210, '0000-00-00 00:00:00', '2024-11-18 13:05:11'),
 (1007, '2024-11-19', 1, 'Christian Oliver Santarin', 202110157, '2024-11-19 20:46:49', '2024-11-19 20:46:55'),
 (1008, '2024-11-19', 2, 'Marlon Bautista', 202110158, '2024-11-19 21:32:16', '2024-11-19 21:38:20'),
-(1009, '2024-11-19', 1, 'Christian Oliver Santarin', 202110157, '2024-11-19 21:39:28', '2024-11-19 21:39:37');
+(1009, '2024-11-19', 1, 'Christian Oliver Santarin', 202110157, '2024-11-19 21:39:28', '2024-11-19 21:39:37'),
+(1010, '2024-11-22', 1, 'Christian Oliver Santarin', 202110157, '2024-11-20 21:10:01', '2024-11-22 04:09:42'),
+(1011, '2024-11-22', 1, 'Christian Oliver Santarin', 202110157, '2024-11-22 04:10:53', '2024-11-22 04:17:10'),
+(1012, '2024-11-22', 1, 'Marlon Bautista', 0, '0000-00-00 00:00:00', '2024-11-22 04:45:12');
 
 -- --------------------------------------------------------
 
@@ -185,7 +188,7 @@ ALTER TABLE `tbl_card`
 -- AUTO_INCREMENT for table `tbl_history`
 --
 ALTER TABLE `tbl_history`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1010;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1013;
 
 --
 -- AUTO_INCREMENT for table `tbl_sales`
