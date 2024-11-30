@@ -14,12 +14,12 @@
 #define SS_PIN D2        // Slave select pin for MFRC522
 #define relayPin D4      // Relay connected to D8
 
-// WiFi details
-const char* ssid = "Marron";
-const char* password = "543210123";
+// WiFi details 
+const char* ssid = "Note10Pro";              // Your WiFi SSID
+const char* password = "Capustone";       // Your WiFi password
 
 // Server details
-const char* serverUrl = "http://192.168.0.117/SunChargeV2/function/scan_uid_locker-1.php"; // Your PHP script URL
+const char* serverUrl = "http://192.168.133.63/SunChargeV2/function/scan_uid_locker-1.php"; // Your PHP script URL
 
 bool lockerIsLocked = true; // Track if the locker is locked
 

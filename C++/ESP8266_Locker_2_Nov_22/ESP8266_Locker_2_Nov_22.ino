@@ -1,3 +1,4 @@
+
 //D2 - SDA
 //D5 - SCK
 //D7 - MOSI
@@ -19,7 +20,7 @@ const char* ssid = "Marron";
 const char* password = "543210123";
 
 // Server details
-const char* serverUrl = "http://192.168.0.117/SunChargeV2/function/scan_uid_locker-2.php"; // Your PHP script URL
+const char* serverUrl = "http://192.168.133.63/SunChargeV2/function/scan_uid_locker-1.php"; // Your PHP script URL
 
 bool lockerIsLocked = true; // Track if the locker is locked
 
@@ -70,41 +71,33 @@ void sendUIDToServer(String uid) {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
 
-    // Specify request destination
-    http.begin(wifiClient, serverUrl); // Updated to use WiFiClient
+    http.begin(wifiClient, serverUrl);
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    // Prepare data
-    String httpRequestData = "card_uid=" + uid;
-
-    // Send the POST request
+    // Include locker_id in the request
+    String httpRequestData = "card_uid=" + uid + "&locker_id=2";
     int httpResponseCode = http.POST(httpRequestData);
 
     if (httpResponseCode > 0) {
-      String response = http.getString(); // Get server response
+      String response = http.getString();
       Serial.println("HTTP Response code: " + String(httpResponseCode));
       Serial.println("Server Response: " + response);
 
-      // Check if access is granted and assigned to the correct locker number (for charger1, check if "locker_number" is "charger1")
-      if (response.indexOf("\"status\":\"success\"") != -1 && response.indexOf("\"locker_number\":\"charger2\"") != -1) {
-        Serial.println("Access granted for charger1");
-
-        // Proceed to toggle lock
+      if (response.indexOf("\"status\":\"success\"") != -1) {
         toggleLock();
-      } else if (response.indexOf("\"status\":\"in_use\"") != -1) {
-        Serial.println("Access Denied: Card is already assigned to another charger.");
       } else {
-        Serial.println("Access Denied: UID " + uid + " not recognized or not assigned to charger2.");
+        Serial.println("Access Denied or Error: " + response);
       }
     } else {
-      Serial.println("Error on sending POST: " + String(httpResponseCode));
+      Serial.println("Error on HTTP POST: " + String(httpResponseCode));
     }
 
-    http.end(); // Free HTTP resources
+    http.end();
   } else {
-    Serial.println("WiFi Disconnected");
+    Serial.println("WiFi Disconnected.");
   }
 }
+
 
 
 void toggleLock() {

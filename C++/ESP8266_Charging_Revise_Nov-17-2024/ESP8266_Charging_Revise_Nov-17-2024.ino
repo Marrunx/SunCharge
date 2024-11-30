@@ -8,11 +8,11 @@
 #define CLK  D1  // Connect CLK pin to D1
 #define DIO  D2  // Connect DIO pin to D2
 
-const char* ssid = "Marron";              // Your WiFi SSID
-const char* password = "543210123";       // Your WiFi password
+const char* ssid = "Note10Pro";              // Your WiFi SSID
+const char* password = "Capustone";       // Your WiFi password
 
 // Server URL
-const char* serverName = "http://192.168.0.117/SunChargeV2/function/send_sales_c1.php"; // Replace with your actual URL
+const char* serverName = "http://192.168.133.63/SunChargeV2/function/send_sales_c2.php"; // Replace with your actual URL
 
 // Data to be sent
 int charging1 = 0;       // Value to be sent to server for charging1
@@ -35,7 +35,7 @@ boolean relayState = false; // Tracks if the relay is ON or OFF
 TM1637Display display(CLK, DIO);
 
 void setup() {
-  Serial.begin(9600); // Start serial communication
+  Serial.begin(115200); // Start serial communication
   Serial.println("Connecting to WiFi...");
 
   pinMode(relayPin, OUTPUT);
