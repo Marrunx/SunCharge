@@ -19,7 +19,7 @@ const char* ssid = "Note10Pro";              // Your WiFi SSID
 const char* password = "Capustone";       // Your WiFi password
 
 // Server details
-const char* serverUrl = "http://192.168.133.63/SunChargeV2/function/scan_uid_locker-1.php"; // Your PHP script URL
+const char* serverUrl = "http://192.168.80.63/SunChargeV2/function/scan_uid_locker-1.php"; // Your PHP script URL
 
 bool lockerIsLocked = true; // Track if the locker is locked
 

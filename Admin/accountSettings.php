@@ -52,8 +52,7 @@ if(empty($_SESSION['status'])){
                 <div class="locker-settings" id="locker-settings">
                     <h1>Locker Settings</h1>
                     <form action="" method="post" class="locker-forms">
-                        <input type="text" id="" placeholder="Locker 1 UID" class="input-txt" name="locker1">
-                        <input type="text" placeholder="Locker 2 UID" class="input-txt" name="locker2">
+                        <input type="text" id="" placeholder="Change locker UID" class="input-txt" name="locker1">
                         <input type="submit" class="save-btn" name="save-locker" value="Save changes">
                     </form>
                 </div>
@@ -131,8 +130,40 @@ if(isset($_POST['save-user'])){
 if(isset($_POST['save-locker'])){
 
     $locker1 = $_POST['locker1'];
-    $locker2 = $_POST['locker2'];
 
+    if(!empty($_POST['locker1']) && !empty($_POST['locker2'])){
+        $sqlUID1 = "UPDATE tbl_card SET card_uid = '$locker1' WHERE card_number = 1";
+        $qryUID1 = mysqli_query($conn, $sqlUID1);
+
+        $sqlUID2 = "UPDATE tbl_card SET card_uid = '$locker2' WHERE card_number = 2";
+        $qryUID2 = mysqli_query($conn, $sqlUID2);
+
+        echo"
+        <script>
+            alert('Changes has been saved.');
+        </script>
+        ";
+
+    }else if(!empty($_POST['locker1']) && empty($_POST['locker2'])){
+        $sqlUID1 = "UPDATE tbl_card SET card_uid = '$locker1' WHERE card_number = 1";
+        $qryUID1 = mysqli_query($conn, $sqlUID1);
+
+        echo"
+        <script>
+            alert('Changes has been saved.');
+        </script>
+        ";
+
+    }else if(empty($_POST['locker1']) && !empty($_POST['locker2'])){
+        $sqlUID2 = "UPDATE tbl_card SET card_uid = '$locker2' WHERE card_number = 2";
+        $qryUID2 = mysqli_query($conn, $sqlUID2);
+
+        echo"
+        <script>
+            alert('Changes has been saved.');
+        </script>
+        ";
+    }
 }
 ?>
 

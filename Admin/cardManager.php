@@ -43,6 +43,7 @@ if(empty($_SESSION['status'])){
                             <thead>
                                 <th>Card No.</th>
                                 <th>Used by</th>
+                                <th>Section</th>
                                 <th>Time Taken</th>
                                 <th>Locker Number</th>
                             </thead>
@@ -56,6 +57,7 @@ if(empty($_SESSION['status'])){
                                     while($result = mysqli_fetch_assoc($qry)){         
                                         $cardNumber = $result['card_number'];
                                         $cardUID = $result['card_uid'];
+                                        $section = $result['section'];
                                         if(is_null($result['used_by'])){
                                             $cardUser = "none";
                                         }else{
@@ -73,6 +75,7 @@ if(empty($_SESSION['status'])){
 
                                     <td><?php echo $cardNumber;?></td>
                                     <td><?php echo $cardUser;?></td>
+                                    <td><?php echo $section?></td>
                                     <td><?php echo $hours12;?></td>
                                     <td><?php echo $result['locker_number']?></td>
 
@@ -89,6 +92,7 @@ if(empty($_SESSION['status'])){
                             <div class="side-label">
                                 <p>Card No.</p>
                                 <p>Used By</p>
+                                <p>Section</p>
                                 <p>Time Taken</p>
                             </div>
 
@@ -96,6 +100,7 @@ if(empty($_SESSION['status'])){
                                 <p><span id="cardNumber"></span></p>
                                 <p id="cardUID"></p>
                                 <p id="cardUser"></p>
+                                <p id="cardSection"></p>
                                 <p id="cardTaken"></p>
                             </div>
                         </div>
@@ -216,14 +221,11 @@ if(empty($_SESSION['status'])){
         </div>
         <div class="deploy-body">
             <h1>Card No. <span id="cardUID2"></span></h1>
-            <form action="" method="POST">
+            <form action="" method="POST" class="deploy-forms">
                 <input type="text" value="" id="cardID" name="cardID" hidden>
                 <div class="deploy-input">
-                    <label for="" class="stud-id-lbl">Student ID</label>
-                    <input type="text" name="studentID" id="" class="stud-id-txt">
-                </div>
-
-                <div class="deploy-body">
+                    <input type="text" name="customer_name" id="" class="stud-id-txt" placeholder="Name">
+                    <input type="text" name="section" id="" class="stud-id-txt" placeholder="Section">
                   <input type="submit" value="Confirm" class="confirm-btn" name="deployCard">
                 </div>
             </form>
@@ -257,32 +259,19 @@ if(empty($_SESSION['status'])){
 <?php
     if(isset($_POST['deployCard'])){
         $cardID = $_POST['cardID'];
-        $studentID = $_POST['studentID'];
+        $name = $_POST['customer_name'];
+        $section = $_POST['section'];
         
-        //get name of the student in studentList
-        $getSql = "SELECT * FROM tbl_studentList WHERE studentID = '$studentID'";
-        $getQry = mysqli_query($conn, $getSql);
-        $getResult = mysqli_fetch_assoc($getQry);
-        $numRows = mysqli_num_rows($getQry);
-        if($numRows > 0){
-        $fname = $getResult['firstname'];
-        $sname = $getResult['surname'];
 
 
-        $sql = "UPDATE tbl_card SET used_by ='$fname $sname', studentID = '$studentID', time_taken = NOW() WHERE card_number = '$cardID'";
+        $sql = "UPDATE tbl_card SET used_by ='$name', section = '$section', time_taken = NOW() WHERE card_number = '$cardID'";
         $qry = mysqli_query($conn, $sql);
 
         echo"
         <script>
-            alert('$fname $sname is now using card no.$cardID');
+            alert('$name is now using card no.$cardID');
             window.location.href = 'cardManager.php';
         </script>";
-        }else{
-            echo"
-            <script>
-                alert('Student ID does not exist');
-            </script>";
-        }
     }
 
     if(isset($_POST['returnCard'])){
@@ -297,15 +286,15 @@ if(empty($_SESSION['status'])){
 
         $cardNumber = $cardInfo['card_number'];
         $name = $cardInfo['used_by'];
-        $studentID = $cardInfo['studentID'];
+        $section = $cardInfo['section'];
         $timeTaken = $cardInfo['time_taken'];
 
             //update history table;
-        $historySql = "INSERT INTO tbl_history VALUES ('', NOW(), '$cardNumber', '$name', '$studentID', '$timeTaken', NOW())";
+        $historySql = "INSERT INTO tbl_history VALUES ('', NOW(), '$cardNumber', '$name', '$section', '$timeTaken', NOW())";
         $historyQry = mysqli_query($conn, $historySql);
 
         //update values in database
-        $sql = "UPDATE tbl_card SET used_by = null, studentID = null, time_taken = null WHERE card_number = '$card'";
+        $sql = "UPDATE tbl_card SET used_by = null, section = null, time_taken = null WHERE card_number = '$card'";
         $qry = mysqli_query($conn, $sql);
         
         echo"

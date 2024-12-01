@@ -12,10 +12,10 @@ const char* ssid = "Note10Pro";              // Your WiFi SSID
 const char* password = "Capustone";       // Your WiFi password
 
 // Server URL
-const char* serverName = "http://192.168.133.63/SunChargeV2/function/send_sales_c1.php"; // Replace with your actual URL
+const char* serverName = "http://192.168.80.63/SunChargeV2/function/send_sales_c2.php"; // Replace with your actual URL
 
 // Data to be sent
-int charging1 = 0;       // Value to be sent to server for charging1
+int charging2 = 0;       // Value to be sent to server for charging2
 
 int relayPin = D5;       // Relay connected to D5
 int coinSlotStatus;
@@ -109,26 +109,26 @@ void loop() {
 
   // Send pulse data every 30 seconds
   if (millis() - lastSendTime >= sendInterval) {
-    // Set charging1 to the current pulse value
-    charging1 = pulse;
+    // Set charging2 to the current pulse value
+    charging2 = pulse;
     // Send data to the server
-    sendData(charging1);
-    // Reset pulse count and charging1 after sending
+    sendData(charging2);
+    // Reset pulse count and charging2 after sending
     pulse = 0; // Reset pulse count after sending
-    charging1 = pulse; // Reset charging1 value
+    charging2 = pulse; // Reset charging2 value
     lastSendTime = millis(); // Update the last send time
   }
 
   delay(50); // Adjust delay as needed
 }
 
-void sendData(int charging1) {
+void sendData(int charging2) {
   if (WiFi.status() == WL_CONNECTED) {
     WiFiClient client;
     HTTPClient http;
 
     // Construct URL with parameters
-    String url = String(serverName) + "?charging1=" + String(charging1);
+    String url = String(serverName) + "?charging2=" + String(charging2);
     Serial.println("Sending request to URL: " + url); // Debugging line
 
     // Begin HTTP connection

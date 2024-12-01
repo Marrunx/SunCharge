@@ -6,6 +6,7 @@ const returnBtn = document.getElementById('return-btn');
 
 const cardNumRow = document.getElementById('cardNumber');
 const cardUserRow = document.getElementById('cardUser');
+const cardSectionRow = document.getElementById('cardSection');
 const cardTakenRow = document.getElementById('cardTaken');
 
 const cardNumDeploy = document.getElementById('cardUID2');
@@ -25,10 +26,12 @@ table.addEventListener('click', function(event){
             
         const cardNum = cells[0].textContent;
         const cardUser = cells[1].textContent;
-        const cardTaken = cells[2].textContent;
+        const cardSection = cells[2].textContent;
+        const cardTaken = cells[3].textContent;
 
         cardNumRow.textContent = cardNum;
         cardUserRow.textContent= cardUser;
+        cardSectionRow.textContent = cardSection;
         cardTakenRow.textContent = cardTaken;
 
         cardNumDeploy.textContent = cardNum;
