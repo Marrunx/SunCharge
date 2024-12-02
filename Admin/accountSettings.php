@@ -16,13 +16,13 @@ if(empty($_SESSION['status'])){
     <link rel="stylesheet" href="style/accountSettings.css">
 
 
-    <title>SunCharge | Settings </title>
+    <title>RE:Charge | Settings </title>
 </head>
 
 <body>
     <div class="main">
         <div class="nav-bar">
-            <h1>SunCharge</h1>
+            <h1>RE:Charge</h1>
             
             <a href="cardManager.php">Card Manager</a>
             <a href="">Settings</a>

@@ -16,12 +16,12 @@ if(empty($_SESSION['status'])){
     <link rel="stylesheet" href="style/nav.css">
 
 
-    <title>SunCharge | Card Manager</title>
+    <title>RE:Charge | Card Manager</title>
 </head>
 <body>
     <div class="main">
         <div class="nav-bar">
-            <h1>SunCharge</h1>
+            <h1>RE:Charge</h1>
             
             <a href="">Card Manager</a>
             <a href="accountSettings.php">Settings</a>
@@ -45,7 +45,6 @@ if(empty($_SESSION['status'])){
                                 <th>Used by</th>
                                 <th>Section</th>
                                 <th>Time Taken</th>
-                                <th>Locker Number</th>
                             </thead>
 
                             <tbody>
@@ -76,9 +75,7 @@ if(empty($_SESSION['status'])){
                                     <td><?php echo $cardNumber;?></td>
                                     <td><?php echo $cardUser;?></td>
                                     <td><?php echo $section?></td>
-                                    <td><?php echo $hours12;?></td>
-                                    <td><?php echo $result['locker_number']?></td>
-
+                                    <td><?php echo $hours12;?></td>               
                                 </tr>
                                 <?php }?>
                             </tbody>          
@@ -131,9 +128,8 @@ if(empty($_SESSION['status'])){
             <table class="history-tbl-head">
                 <thead>
                     <th>Date</th>
-                    <th>Card No.</th>
                     <th>Name</th>
-                    <th>Student ID</th>
+                    <th>Section</th>
                     <th>Time Taken</th>
                     <th>Time Returned</th>
                 </thead>
@@ -159,9 +155,8 @@ if(empty($_SESSION['status'])){
                 ?>
                 <tr>
                     <td><?php echo $historyData['date']?></td>
-                    <td><?php echo $historyData['card_number']?></td>
                     <td><?php echo $historyData['name']?></td>
-                    <td><?php echo $historyData['student_id']?></td>
+                    <td><?php echo $historyData['section']?></td>
                     <td><?php echo $timeTakenFrmt?></td>
                     <td><?php echo $timeReturnedFrmt?></td>
                 </tr>                
@@ -184,8 +179,8 @@ if(empty($_SESSION['status'])){
             <table class="sales-tbl-head">
                 <thead class="sales-tbl-body">
                     <th>Date</th>
-                    <th>Locker Chager 1</th>
-                    <th>Locker Charger 2</th>
+                    <th>Locker Charger 1</th>
+                    <th>Charger 2</th>
                 </thead>
             </table>
         </div>
@@ -201,7 +196,7 @@ if(empty($_SESSION['status'])){
 
                         $dateSales = $resultSales['date'];
                         $charger1Sales = $resultSales['charger1'];
-                        $charger2Sales = $resultSales['charger2'];
+                        $charger2Sales = $resultSales['charger1'];
                     ?>
                     <tr>
                         <td><?php echo$dateSales;?></td>
@@ -269,7 +264,7 @@ if(empty($_SESSION['status'])){
 
         echo"
         <script>
-            alert('$name is now using card no.$cardID');
+            alert('$name is now using the locker charger');
             window.location.href = 'cardManager.php';
         </script>";
     }

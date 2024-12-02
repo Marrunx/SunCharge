@@ -49,6 +49,7 @@ body{
     background-color: var(--mango-yellow);
     border-top-right-radius: 14px;
     border-bottom-right-radius: 14px;
+    
 }
 
 form{
@@ -95,7 +96,7 @@ form{
 .suncharge-txt{
     font-family: var(--logo-font);
     font-size: 40px;
-    margin-top: 3%;
+    margin-top: 0;
     margin-bottom: 0%;
 }
 
