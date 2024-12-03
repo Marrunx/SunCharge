@@ -15,11 +15,12 @@
 #define relayPin D4      // Relay connected to D8
 
 // WiFi details 
-const char* ssid = "Note10Pro";              // Your WiFi SSID
-const char* password = "Capustone";       // Your WiFi password
+const char* ssid = "OPPOA17";              // Your WiFi SSID
+const char* password = "jjuralbal";       // Your WiFi password
 
 // Server details
-const char* serverUrl = "http://192.168.80.63/SunChargeV2/function/scan_uid_locker-1.php"; // Your PHP script URL
+const char* serverUrl = "http://192.168.249.63/SunChargeV2/function/scan_uid_locker-1.php"; // Your PHP script URL
+// C:\xampp\htdocs\SunChargeV2\function
 
 bool lockerIsLocked = true; // Track if the locker is locked
 

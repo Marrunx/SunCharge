@@ -3,6 +3,11 @@ session_start();
 if(empty($_SESSION['status'])){
     header('Location: ../login.html');
 }
+
+$logFile = '../logs/rfid_logs.txt'; // Adjust the path if needed
+if (file_exists($logFile)) {
+    file_put_contents($logFile, ''); // Overwrite the file with an empty string
+}
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +57,7 @@ if(empty($_SESSION['status'])){
                 <div class="locker-settings" id="locker-settings">
                     <h1>Locker Settings</h1>
                     <form action="" method="post" class="locker-forms">
-                        <input type="text" id="" placeholder="Change locker UID" class="input-txt" name="locker1">
+                        <input type="text" id="uid-display"  placeholder="Change locker UID" class="input-txt" name="locker1">
                         <input type="submit" class="save-btn" name="save-locker" value="Save changes">
                     </form>
                 </div>
@@ -64,6 +69,7 @@ if(empty($_SESSION['status'])){
 </body>
 
 <script src="javascript/settings.js" defer></script>
+<script src="../js/scan_uid.js" defer></script>
 </html>
 
 

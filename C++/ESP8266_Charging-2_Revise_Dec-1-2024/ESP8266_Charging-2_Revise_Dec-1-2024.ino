@@ -8,11 +8,11 @@
 #define CLK  D1  // Connect CLK pin to D1
 #define DIO  D2  // Connect DIO pin to D2
 
-const char* ssid = "Note10Pro";              // Your WiFi SSID
-const char* password = "Capustone";       // Your WiFi password
+const char* ssid = "OPPOA17";              // Your WiFi SSID
+const char* password = "jjuralbal";       // Your WiFi password
 
 // Server URL
-const char* serverName = "http://192.168.80.63/SunChargeV2/function/send_sales_c2.php"; // Replace with your actual URL
+const char* serverName = "http://192.168.249.63/SunChargeV2/function/send_sales_c2.php"; // Replace with your actual URL
 
 // Data to be sent
 int charging2 = 0;       // Value to be sent to server for charging2
