@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2024 at 11:53 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 05, 2024 at 05:23 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -52,15 +52,17 @@ CREATE TABLE `tbl_card` (
   `used_by` varchar(50) DEFAULT NULL,
   `section` varchar(11) DEFAULT NULL,
   `time_taken` datetime DEFAULT current_timestamp(),
-  `locker_number` varchar(11) NOT NULL
+  `locker_number` varchar(11) NOT NULL,
+  `rfid_balance` int(255) NOT NULL,
+  `coinslot_balance` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_card`
 --
 
-INSERT INTO `tbl_card` (`card_number`, `card_uid`, `used_by`, `section`, `time_taken`, `locker_number`) VALUES
-(1, '12312213', NULL, NULL, NULL, '1');
+INSERT INTO `tbl_card` (`card_number`, `card_uid`, `used_by`, `section`, `time_taken`, `locker_number`, `rfid_balance`, `coinslot_balance`) VALUES
+(1, '595BA279', 'alonzo', 'bsit4d', '2024-12-03 17:37:02', '1', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -120,7 +122,11 @@ CREATE TABLE `tbl_sales` (
 
 INSERT INTO `tbl_sales` (`id`, `date`, `charger1`, `charger2`, `charger3`) VALUES
 (1, '2024-11-17', 5, 0, 0),
-(2, '2024-11-19', 3, 9, 0);
+(2, '2024-11-19', 3, 9, 0),
+(3, '2024-12-03', 36, 2, 0),
+(4, '2024-12-03', 37, 1, 0),
+(5, '2024-12-04', 0, 0, 0),
+(6, '2024-12-05', 117, 164, 0);
 
 --
 -- Indexes for dumped tables
@@ -170,7 +176,7 @@ ALTER TABLE `tbl_history`
 -- AUTO_INCREMENT for table `tbl_sales`
 --
 ALTER TABLE `tbl_sales`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
