@@ -3,6 +3,9 @@ session_start();
 if(empty($_SESSION['status'])){
     header('Location: ../login.html');
 }
+
+$LockerTable = "tbl_locker";
+$cardTable = "tbl_card";
 ?>
 
 <!DOCTYPE html>
@@ -23,90 +26,64 @@ if(empty($_SESSION['status'])){
         <div class="nav-bar">
             <h1>RE:Charge</h1>
             
+            <a href="">Locker Manager</a>
             <a href="">Card Manager</a>
             <a href="accountSettings.php">Settings</a>
-            
-            <div>
             <a href="logout.php" id="log-out">Logout</a>
-            </div>
         </div>
 
 
 
         <div class="main-body">
-            <h1 class="header">Card Manager</h1>
+            <h1 class="header">Locker Manager</h1>
 
             <div class="sub-container-wrapper">
                 <div class="tbl-container">
-                    
                         <table class="card-tbl" id="cards-table">
                             <thead>
-                                <th>Card No.</th>
+                                <th>Locker No.</th>
+                                <th>Status</th>
                                 <th>Used by</th>
-                                <th>Section</th>
-                                <th>Time Taken</th>
+                                <th>Card No.</th>
+                                <th>Date Rented</th>
+                                <th>Date Expired</th>
                             </thead>
 
                             <tbody>
                             <?php 
                                     $conn = mysqli_connect('localhost', 'root', '', 'suncharge');
-                                    $sql = "SELECT * FROM tbl_card";
+                                    $sql = "SELECT * FROM $LockerTable";
                                     $qry = mysqli_query($conn, $sql);
 
                                     while($result = mysqli_fetch_assoc($qry)){         
+                                        $cardNumber = $result['locker_number'];
+                                        $lockerStatus = $result['locker_status'];
+                                        $usedBy = $result['used_by'];
                                         $cardNumber = $result['card_number'];
-                                        $cardUID = $result['card_uid'];
-                                        $section = $result['section'];
-                                        if(is_null($result['used_by'])){
-                                            $cardUser = "none";
+                                        $rentDate = $result['date_rented'];
+                                        $expiration = $result['date_expired'];
+                                        
+                                        //user string
+                                        if($usedBy == null){
+                                            $usedByStr = "None";
                                         }else{
-                                            $cardUser = $result['used_by'];
+                                            $usedByStr = $result['used_by'];
                                         }
-
-                                        if(is_null($result['time_taken'])){
-                                            $hours12 = "-- : --";
-                                        }else{
-                                            $cardTaken = $result['time_taken'];
-                                            $hours12 = date("h: i A", strtotime($cardTaken));
-                                        }
+                                        //card
                                 ?>
                                 <tr>
 
                                     <td><?php echo $cardNumber;?></td>
-                                    <td><?php echo $cardUser;?></td>
-                                    <td><?php echo $section?></td>
-                                    <td><?php echo $hours12;?></td>               
+                                    <td><?php echo $lockerStatus;?></td>
+                                    <td><?php echo $usedByStr?></td>           
                                 </tr>
                                 <?php }?>
                             </tbody>          
                         </table>
-                        
                 </div>
-                
-                <div class="right-container">
-                    <div class="action-container">
-                        <div class="action-sub-container">
-                            <div class="side-label">
-                                <p>Card No.</p>
-                                <p>Used By</p>
-                                <p>Section</p>
-                                <p>Time Taken</p>
-                            </div>
-
-                            <div class="data-container" id="rowDetails">
-                                <p><span id="cardNumber"></span></p>
-                                <p id="cardUID"></p>
-                                <p id="cardUser"></p>
-                                <p id="cardSection"></p>
-                                <p id="cardTaken"></p>
-                            </div>
-                        </div>
-                        
-                        <button class="deploy-btn" id="deploy-btn">Deploy Card</button>
-                        <button class="return-btn" id="return-btn">Return Card</button>
-                    </div>
-                    <p class="sales" id="sales-btn">Sales report</p>
-                    <p class="history" id="history-btn">History</p>
+                <div class="container-bottom">
+                    <p>Sales Record</p>
+                    <p>Activity Log</p>
                 </div>
             </div> 
 
@@ -259,7 +236,7 @@ if(empty($_SESSION['status'])){
         
 
 
-        $sql = "UPDATE tbl_card SET used_by ='$name', section = '$section', time_taken = NOW() WHERE card_number = '$cardID'";
+        $sql = "UPDATE $LockerTable SET used_by ='$name', section = '$section', time_taken = NOW() WHERE card_number = '$cardID'";
         $qry = mysqli_query($conn, $sql);
 
         echo"
@@ -273,7 +250,7 @@ if(empty($_SESSION['status'])){
         $card = $_POST['cardID2'];
 
         //put current values in history table
-        $sqlID = "SELECT * FROM tbl_card WHERE card_number = '$card'";
+        $sqlID = "SELECT * FROM $LockerTable WHERE card_number = '$card'";
         $qryID = mysqli_query($conn, $sqlID);
         $cardInfo = mysqli_fetch_assoc($qryID);
 
@@ -289,7 +266,7 @@ if(empty($_SESSION['status'])){
         $historyQry = mysqli_query($conn, $historySql);
 
         //update values in database
-        $sql = "UPDATE tbl_card SET used_by = null, section = null, time_taken = null WHERE card_number = '$card'";
+        $sql = "UPDATE $LockerTable SET used_by = null, section = null, time_taken = null WHERE card_number = '$card'";
         $qry = mysqli_query($conn, $sql);
         
         echo"

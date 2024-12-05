@@ -1,6 +1,5 @@
 .main-body{
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -12,13 +11,29 @@
 }
 
 .sub-container-wrapper{
-    display: flex;
+    display: block;
     gap: 50px;
 }
 
+.container-bottom{
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+}
+
+.container-bottom p{
+    font-size: 20px;
+    font-family: 'Inter';
+    text-decoration: underline;
+}
+
+.container-bottom p:hover{
+    cursor: pointer;
+}
+
 .tbl-container{
-    width: 765px;
-    height: 505px;
+    width: 1200px;
+    height: 480px;
     border: solid 2px rgba(0, 0, 0, 0.25);
     border-radius: 18px;
 }
@@ -48,12 +63,6 @@ tbody tr:hover{
 
 tbody tr{
     transition: 100ms;
-}
-
-.right-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .sales, .history{
