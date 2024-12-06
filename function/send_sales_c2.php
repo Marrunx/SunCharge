@@ -3,10 +3,7 @@
 $servername = "localhost";  // Assuming XAMPP is running locally
 $username = "root";         // Default MySQL username (root)
 $password = "";             // Default MySQL password (empty in XAMPP by default)
-$dbname = "suncharge";           // Your database name
-
-// Set timezone to ensure correct date
-date_default_timezone_set('Asia/Manila'); // Adjust timezone if necessary
+$dbname = "suncharge";      // Your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -16,41 +13,34 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get current date from server
-$date = date("Y-m-d"); // Format: YYYY-MM-DD
-echo "Current Date: $date<br>"; // Debugging line to verify date
-
 // Check if parameters are set
 if (isset($_GET['charging2'])) {
-    $charger2 = intval($_GET['charging2']);
+    $charger2 = intval($_GET['charging2']); // Get the amount from the parameter
 
-    // Check if a record for the current date exists
-    $stmt = $conn->prepare("SELECT id FROM tbl_sales WHERE date = ?");
-    $stmt->bind_param("s", $date);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Get name from the other table
+    $getDataSql = "SELECT * FROM tbl_card WHERE locker_number = 2"; // Assuming locker_number = 1
+    $getDataQRY = mysqli_query($conn, $getDataSql);
+    $userData = mysqli_fetch_assoc($getDataQRY);
 
-    if ($result->num_rows > 0) {
-        // Record exists, update the charging1 value
-        $stmt = $conn->prepare("UPDATE tbl_sales SET charger2 = charger2 + ? WHERE date = ?");
-        $stmt->bind_param("is", $charger2, $date);
-        if ($stmt->execute()) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: " . $stmt->error;
-        }
+    // Data needed in sales
+    $locker_number = 2;
+    $userNameTbl = "Open";
+
+    // Get current date and time
+    $date = date("Y-m-d"); // Format: YYYY-MM-DD
+    $time = date("H:i:s"); // Format: HH:MM:SS
+
+    // Insert into sales (ID will auto-increment)
+    $salesRecordSql = "INSERT INTO tbl_sales (transaction_id, date, time, locker_number, name, amount) 
+                       VALUES (NULL, '$date', '$time', '$locker_number', '$userNameTbl', '$charger2')";
+    $salesRecordQRY = mysqli_query($conn, $salesRecordSql);
+
+    // Check if the query executed successfully
+    if ($salesRecordQRY) {
+        echo "Transaction successfully recorded!";
     } else {
-        // No record for this date, insert a new one
-        $stmt = $conn->prepare("INSERT INTO tbl_sales (date, charger2) VALUES (?, ?)");
-        $stmt->bind_param("si", $date, $charger2);
-        if ($stmt->execute()) {
-            echo "New record created successfully";
-        } else {
-            echo "Error: " . $stmt->error;
-        }
+        echo "Error: " . mysqli_error($conn);
     }
-
-    $stmt->close(); // Close the statement
 } else {
     echo "Error: Missing parameters.";
 }

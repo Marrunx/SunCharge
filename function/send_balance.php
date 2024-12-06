@@ -27,7 +27,7 @@ if (isset($_POST['card_uid']) && isset($_POST['rfid_balance'])) {
 
     if ($conn->query($sql) === TRUE) {
         // After successfully updating the balance, reset the rfid_balance to 0
-        $reset_sql = "UPDATE tbl_card SET rfid_balance = 0 WHERE card_uid = '$card_uid'";
+        $reset_sql = "UPDATE tbl_card SET card_balance = 0 WHERE card_uid = '$card_uid'";
 
         if ($conn->query($reset_sql) === TRUE) {
             echo "Balance updated successfully and RFID balance reset to 0";

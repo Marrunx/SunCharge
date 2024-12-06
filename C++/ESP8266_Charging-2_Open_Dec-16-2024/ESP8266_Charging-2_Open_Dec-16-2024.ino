@@ -1,33 +1,28 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
-#include <WiFiClient.h>
 #include <TM1637Display.h>  // Include the TM1637 display library
 
-#define coinSlot D3  // PIN 8 for the coin slot
-// TM1637 7-segment display setup
-#define CLK  D1  // Connect CLK pin to D1
-#define DIO  D2  // Connect DIO pin to D2
+#define coinSlot D3           // PIN D3 for the coin slot
+#define CLK D1                // TM1637 CLK pin
+#define DIO D2                // TM1637 DIO pin
 
 const char* ssid = "OPPOA17";              // Your WiFi SSID
 const char* password = "jjuralbal";       // Your WiFi password
 
-// Server URL
-const char* serverName = "http://192.168.249.63/SunChargeV2/function/send_sales_c2.php"; // Replace with your actual URL
+// Server URLs
+const char* sendSalesURL = "http://192.168.249.63/SunChargeV2/function/send_sales_c2.php"; // Function for sending sales
 
-// Data to be sent
-int charging2 = 0;       // Value to be sent to server for charging2
-
-int relayPin = D5;       // Relay connected to D5
+int relayPin = D5;         // Relay connected to D5
 int coinSlotStatus;
-int pulse = 0;           // Coin pulse counter
-int remainingTime = 0;   // Time remaining in seconds
+int remainingTime = 0;     // Time remaining in minutes
+int pulse = 0;             // Coin pulse counter
+int totalCoins = 0;        // Total coins inserted
 
-// Variables to accumulate charging values
-unsigned long lastSendTime = 0;         // Time of last sending
-const unsigned long sendInterval = 30000; // Send data every 30 seconds
-
+unsigned long lastCoinTime = 0; // Time of the last coin insertion
+unsigned long sendDelay = 2000; // Delay before sending total to server
 unsigned long lastMillis = 0;
 const int COIN_TO_SECONDS = 60; // Each coin pulse adds 60 seconds (1 minute)
+unsigned long lastSecond = 0;  // Variable to track the last second change
 
 boolean balance = false;
 boolean noCoin = false;
@@ -49,7 +44,6 @@ void setup() {
     delay(500);
     Serial.print(".");
   }
-
   Serial.println("\nConnected to WiFi!");
 
   // Initialize the 7-segment display
@@ -57,8 +51,8 @@ void setup() {
 }
 
 void loop() {
-  // Check coin slot status
   coinSlotStatus = digitalRead(coinSlot);
+
 
   if (noCoin == false) {
     noCoin = true;
@@ -68,15 +62,23 @@ void loop() {
   // Detect coin insertion
   if (coinSlotStatus == LOW) {
     pulse++; // Increment pulse count for each coin detected
+    totalCoins++;  // Track total coins inserted
     balance = true;
     remainingTime += COIN_TO_SECONDS; // Add 1 minute for each coin detected
     Serial.println("Coin detected! Adding time...");
     relayState = true; // Ensure the relay is set to ON
     digitalWrite(relayPin, HIGH); // Turn on the relay
+    lastCoinTime = millis();  // Reset the time for coin detection
+  }
+
+  // If no coin inserted for a while (e.g., 2 seconds), send the accumulated total
+  if (millis() - lastCoinTime > sendDelay && totalCoins > 0) {
+    send_sales_c1(totalCoins); // Send the accumulated total
+    totalCoins = 0;  // Reset total coins after sending
   }
 
   // Manage relay and countdown
-  if (remainingTime > 0 && millis() - lastMillis >= 1000 && balance) {
+  if (remainingTime > 0 && millis() - lastMillis >= 1000 && balance) {  // Count down by 1 second
     lastMillis = millis();
     remainingTime--;
 
@@ -106,28 +108,18 @@ void loop() {
     display.showNumberDec(0, true); // Display 0 on 7-segment
   }
 
-  // Send pulse data every 30 seconds
-  if (millis() - lastSendTime >= sendInterval) {
-    // Set charging2 to the current pulse value
-    charging2 = pulse;
-    // Send data to the server
-    sendData(charging2);
-    // Reset pulse count and charging2 after sending
-    pulse = 0; // Reset pulse count after sending
-    charging2 = pulse; // Reset charging2 value
-    lastSendTime = millis(); // Update the last send time
-  }
-
-  delay(50); // Adjust delay as needed
+  delay(48); // Adjust delay as needed
 }
 
-void sendData(int charging2) {
+
+// Function to send accumulated pulse data to the server (send_sales_c1.php)
+void send_sales_c1(int charging2) {
   if (WiFi.status() == WL_CONNECTED) {
     WiFiClient client;
     HTTPClient http;
 
-    // Construct URL with parameters
-    String url = String(serverName) + "?charging2=" + String(charging2);
+    // Construct URL with the accumulated total coins as the parameter
+    String url = String(sendSalesURL) + "?charging2=" + String(charging2);
     Serial.println("Sending request to URL: " + url); // Debugging line
 
     // Begin HTTP connection
@@ -137,7 +129,7 @@ void sendData(int charging2) {
     // Check for server response
     if (httpResponseCode > 0) {
       String response = http.getString();
-      Serial.println("Server response: " + response);
+      Serial.println("Server response (sales): " + response);
     } else {
       Serial.println("Error in HTTP request: " + String(httpResponseCode));
     }
@@ -147,3 +139,4 @@ void sendData(int charging2) {
     Serial.println("WiFi not connected");
   }
 }
+
