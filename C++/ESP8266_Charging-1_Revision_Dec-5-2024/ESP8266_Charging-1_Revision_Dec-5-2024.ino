@@ -6,13 +6,13 @@
 #define CLK D1                // TM1637 CLK pin
 #define DIO D2                // TM1637 DIO pin
 
-const char* ssid = "OPPOA17";              // Your WiFi SSID
-const char* password = "jjuralbal";       // Your WiFi password
+const char* ssid = "PPLLLPP";              // Your WiFi SSID
+const char* password = "1234556677";       // Your WiFi password
 
 // Server URLs
-const char* sendSalesURL = "http://192.168.249.63/SunChargeV2/function/send_sales_c1.php"; // Function for sending sales
-const char* checkBalanceURL = "http://192.168.249.63/SunChargeV2/function/get_coinslot_balance.php"; // URL to check balance
-const char* resetBalanceURL = "http://192.168.249.63/SunChargeV2/function/reset_coinslot_balance.php"; // URL to reset balance
+const char* sendSalesURL = "http://192.168.80.63/SunChargeV2/function/send_sales_c1.php"; // Function for sending sales
+const char* checkBalanceURL = "http://192.168.80.63/SunChargeV2/function/get_coinslot_balance.php"; // URL to check balance
+const char* resetBalanceURL = "http://192.168.80.63/SunChargeV2/function/reset_coinslot_balance.php"; // URL to reset balance
 
 int relayPin = D5;         // Relay connected to D5
 int coinSlotStatus;

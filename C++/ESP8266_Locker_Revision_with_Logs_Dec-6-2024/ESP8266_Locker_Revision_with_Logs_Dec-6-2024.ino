@@ -16,14 +16,14 @@
 #define buzzerPin D3 
 
 // WiFi details 
-const char* ssid = "OPPOA17";              // Your WiFi SSID
-const char* password = "jjuralbal";       // Your WiFi password
+const char* ssid = "PPLLLPP";              // Your WiFi SSID
+const char* password = "1234556677";       // Your WiFi password
 
 // Server details
-const char* serverUrlScan = "http://192.168.249.63/SunChargeV2/function/scan_uid_locker-1.php"; // PHP script for UID scanning
-const char* serverUrlBalance = "http://192.168.249.63/SunChargeV2/function/get_balance.php"; // PHP script for balance retrieval
-const char* serverUrlSendBalance = "http://192.168.249.63/SunChargeV2/function/send_balance.php"; // PHP script for sending the balance
-const char* serverUrlLogAccess = "http://192.168.249.63/SunChargeV2/function/log_access.php";
+const char* serverUrlScan = "http://192.168.80.63/SunChargeV2/function/scan_uid_locker-1.php"; // PHP script for UID scanning
+const char* serverUrlBalance = "http://192.168.80.63/SunChargeV2/function/get_balance.php"; // PHP script for balance retrieval
+const char* serverUrlSendBalance = "http://192.168.80.63/SunChargeV2/function/send_balance.php"; // PHP script for sending the balance
+const char* serverUrlLogAccess = "http://192.168.80.63/SunChargeV2/function/log_access.php";
 bool lockerIsLocked = true; // Track if the locker is locked
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Create an MFRC522 instance
