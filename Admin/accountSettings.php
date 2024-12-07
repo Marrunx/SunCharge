@@ -29,12 +29,10 @@ if (file_exists($logFile)) {
         <div class="nav-bar">
             <h1>RE:Charge</h1>
             
+            <a href="lockerManager.php">Locker Manager</a>
             <a href="cardManager.php">Card Manager</a>
             <a href="">Settings</a>
-            
-            <div>
             <a href="logout.php" id="log-out">Logout</a>
-            </div>
         </div>
 
         <div class="body">

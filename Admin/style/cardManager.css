@@ -1,396 +1,301 @@
-.main-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.header{
-    font-family: 'Inter';
-    font-size: 35;
-    font-weight: 600;
-}
-
 .sub-container-wrapper{
-    display: flex;
+    display: block;
     gap: 50px;
 }
 
 .tbl-container{
-    width: 765px;
-    height: 505px;
-    border: solid 2px rgba(0, 0, 0, 0.25);
-    border-radius: 18px;
-}
-
-.card-tbl{
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-    font-family: 'Inter';
-    font-size: 20px;
-}
-
-.card-tbl th{
-    border-bottom: solid 2px;
-    border-color: rgba(0, 0, 0, 0.15);
-}
-
-.card-tbl th, .card-tbl td{
-    padding-block: 13px;
-}
-
-tbody tr:hover{
-    cursor: pointer;
-    transition: 30;
-    background-color: rgba(0, 0, 0, 0.15);
-}
-
-tbody tr{
-    transition: 100ms;
-}
-
-.right-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.sales, .history{
-    font-family: 'Inter';
-    font-size: 20px;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.sales{
-    margin-top: 145px;
-    margin-bottom: 0;
-}
-
-.action-container{
-    width: 322px;
-    height: 290px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: solid 2px rgba(0, 0, 0, 0.25);
-    border-radius: 18px;
-    font-family: 'Inter';
-    font-size: 20px;
-}
-
-.action-sub-container{
-    width: 100%;
-    height: 75%;
-    display: flex;
-}
-
-.side-label{
-    width: 50%;
-    height: 70%;
-    padding-left: 6%;
-}
-
-.data-container{
-    width: 50%;
-    height: 70%;
-    padding-right: 6%;
-    text-align: right;
-}
-
-.deploy-btn{
-    display: none;
-    width: 160px;
-    height: 45px;
-    background-color: #F6C500;
-    border: none;
-    border-radius: 12px;
-    font-family: 'Inter';
-    font-size: 20px;
-    transition: 300ms;
-    cursor: pointer;
-}
-
-.return-btn{
-    display: none;
-    justify-content: center;
-    width: 160px;
-    height: 45px;
-    background-color: #F6C500;
-    border: none;
-    border-radius: 12px;
-    font-family: 'Inter';
-    font-size: 20px;
-    transition: 300ms;
-    cursor: pointer;
-}
-
-.confirm-btn{
-    display: block;
-    width: 160px;
-    height: 45px;
-    background-color: #F6C500;
-    border: none;
-    border-radius: 12px;
-    font-family: 'Inter';
-    font-size: 20px;
-    transition: 300ms;
-    cursor: pointer;
-}
-
-.deploy-btn:hover, .return-btn:hover, .confirm-btn:hover, .return-confirm-btn:hover, .return-cancel-btn:hover{
-    background-color: #FFFFD2;
-    transition: 300ms;
-}
-
-
-
-.selected{
-    background-color: #d3d3d3;
-}
-
-.deploy-popUp{
-    display: none;
-    flex-direction: column ;
-    position: fixed;
-    width: 617px;
+    width: 1200px;
     height: 420px;
-    background-color: white;
-    border-radius: 20px;
-    align-items: center;
-    
-}
-
-.deploy-header{
-    width: 100%;
-    height: 70px;
-    background-color: #FDDD5C;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    display: flex;
-    justify-content: right;
-    align-items: center;
-}
-
-.deploy-body{
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'inter';
-}
-
-.deply-forms{
-    display: flex;
-}
-
-.deploy-input{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.stud-id-lbl, .stud-id-txt{
-    font-size: 25px;
-}
-
-.stud-id-lbl{
-    margin-right: 20px;
-    margin-top: 18px;
-}
-
-.stud-id-txt{
-    width: 288px;
-    height: 58px;
     border: solid 2px rgba(0, 0, 0, 0.25);
     border-radius: 18px;
-    margin-bottom: 35px;
-    padding-inline: 10px;
-}
-
-.dim-background{
-    display: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.25
-    );
-}
-
-.return-popUp{
-    display: none;
-    flex-direction: column;
-    position: fixed;
-    width: 617px;
-    height: 376px;
-    background-color: white;
-    border-radius: 20px;
-}
-
-.return-header{
-    width: 100%;
-    height: 70px;
-    background-color: #FDDD5C;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    display: flex;
-    justify-content: right;
-    align-items: center;
-}
-
-.return-body{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    font-family: 'Inter';
-    font-size: 25px;
-    justify-content: center;
-    align-items: center;
-}
-
-.return-form{
-    width: 100%;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.return-confirm-btn, .return-cancel-btn{
-    width: 160px;
-    height: 45px;
-    background-color: #F6C500;
-    border: none;
-    border-radius: 12px;
-    font-family: 'Inter';
-    font-size: 20px;
-    transition: 300ms;
-    cursor: pointer;
-    margin-top: 20px;
-    margin-inline: 20px;
-}
-
-/*HISTORY CSS*/
-.history-main{
-    display: none;
-    flex-direction: column;
-    position: fixed;
-    width: 1187px;
-    height: 650px;
-    background-color: white;
-    border-radius: 20px;
-}
-
-.history-head{
-    display: flex;
-    background-color: #FDDD5C;
-    margin: 0;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.history-head h1{
-    padding-left: 20px;
-}
-
-
-
-.history-tbl-head{
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-    border-bottom: solid 2px rgba(0, 0, 0, 0.25);
-}
-
-.history-tbl-head th{
-    font-family: 'Inter';
-    padding-block: 20px;
-    font-size: 25px;
-}
-
-.history-scrollable-body{
-    width: 100%;
-    display: block;
-    max-height: 562px;
-    overflow-y: scroll;
-}
-
-.history-scrollable-body table{
-    font-family: 'Inter';
-    font-size: 20px;
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    text-align: center;
-}
-
-.history-scrollable-body td{
-    padding: 20px;
-    border-bottom: solid 2px rgba(0, 0, 0, 0.15);
-}
-
-/*Sales window*/
-.sales-main{
-    display: none;
-    width: 715px;
-    height: 694px;
-    background-color: white;
-    border-radius: 20px;
-    position: absolute;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
 }
 
-.sales-head{
-    width: 100%;
-    height: 85px;
-    display: flex;
-    border-radius: 19px 19px 0px 0px;
-    align-content: center;
-    background-color: #FDDD5C;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sales-head h1{
-    margin: 0;
-    margin-left: 20px;
-}
-
-.sales-tbl-head{
+.card-tbl {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
-    border-bottom: solid 2px rgba(0, 0, 0, 0.25);
-}
-
-.sales-tbl-head th{
-    font-family: 'Inter';
-    padding-block: 20px;
-    font-size: 25px;
-}
-
-.sales-scrollable-body{
-    width: 100%;
-    display: block;
-    max-height: 562px;
-    overflow-y: scroll;
-}
-
-.sales-scrollable-body table{
+  }
+  
+  /* Ensure the headers and rows have the same widths */
+  .card-tbl th,
+  .card-tbl td {
+    text-align: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* For the fixed header */
+  .card-tbl thead {
     font-family: 'Inter';
     font-size: 20px;
+    display: table; /* Keeps the headers table-like */
     width: 100%;
-    table-layout: fixed;
+    table-layout: fixed; /* Ensures columns align */
+  }
+  
+  /* For the scrollable body */
+  .scrollable-body {
+    max-height: 360px; /* Set the height for the scrollable body */
+    overflow-y: auto;
+  }
+  
+  .scrollable-body .scrollable-table {
+    display: table; /* Ensures the body behaves like a table */
+    width: 100%;
+    table-layout: fixed; /* Ensures columns align with the header */
     border-collapse: collapse;
+  }
+  
+  .scrollable-body td {
+    text-align: center;
+    padding-block:15px;
+    font-family: 'Inter';
+    font-size: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  }
+
+  tbody tr{
+    transition: 300ms;
+  }
+
+  .sub-container-bottom{
+    display: flex;
+    margin-top: 10px;
+  }
+
+  .bottom-left{
+    width: 20%;
+    align-items: center;
+  }
+
+  .bottom-right{
+    width: 80%;
+    justify-content: right;
+    align-items: center;
+    display: flex;
+    gap: 20px;
+  }
+
+  .bottom-right-form{
+    justify-content: right;
+    align-items: center;
+    display: flex;
+    gap: 40px;
+  }
+
+  tbody tr:hover{
+    transition: 300ms;
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  .selected-row{
+    font-family: 'Inter';
+    font-size: 20px;
+  }
+
+  .bottom-btn{
+    font-family: 'Inter';
+    font-size: 18px;
+    border: none;
+    width: 120px;
+    height: 40px;
+    padding-block: 10px;
+    background-color: #F6C500;
+    border-radius: 15px;
+    transition: 300ms;
+  }
+
+  .bottom-btn-missing{
+    font-family: 'Inter';
+    font-size: 18px;
+    border: none;
+    width: 180px;
+    height: 40px;
+    padding-block: 10px;
+    background-color: red;
+    border-radius: 15px;
+    transition: 300ms;
+  }
+
+  .bottom-btn-return{
+    font-family: 'Inter';
+    font-size: 18px;
+    border: none;
+    width: 140px;
+    height: 40px;
+    padding-block: 10px;
+    background-color: #F6C500;
+    border-radius: 15px;
+    transition: 300ms;
+  }
+
+  .bottom-btn:hover{
+    transition: 300ms;
+    background-color: #FFFFD2;
+  }
+
+  .bottom-btn-return:hover{
+    transition: 300ms;
+    background-color: #FFFFD2;
+  }
+
+  .bottom-btn-missing:hover{
+    transition: 300ms;
+    background-color: lightcoral;
+  }
+
+  .input-txt{
+    width: 303px;
+    font-family: 'Inter';
+    font-size: 20px;
+    height: 45px;
+    border: solid 2px rgba(0, 0, 0, 0.40);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    padding-inline: 10px;
+}
+
+  .locker-settings{
+    position: absolute;
+    background-color: white;
+    width: 460px;
+    height: 250px;
+    display: none;
+    border-radius: 20px;
     text-align: center;
 }
 
-.sales-scrollable-body td{
-    padding: 20px;
-    border-bottom: solid 2px rgba(0, 0, 0, 0.15);
+.locker-forms{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: center;
+}
+
+.save-btn{
+  font-size: 18px;
+  width: 160px;
+  height: 36px;
+  border: solid 0px;
+  border-radius: 12px;
+  background-color: #F6C600;
+  transition: 300ms;
+}
+
+.save-btn:hover{
+  background-color: #FFFFD2;
+  transition: 300ms;
+}
+
+.dim-background{
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25
+  );
+}
+
+.deploy-popUp{
+  display: none;
+  flex-direction: column ;
+  position: fixed;
+  width: 617px;
+  height: 460px;
+  background-color: white;
+  border-radius: 20px;
+  align-items: center;
+  
+}
+
+.deploy-header{
+  width: 100%;
+  height: 70px;
+  background-color: #FDDD5C;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.deploy-body{
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'inter';
+}
+
+.deply-forms{
+  display: flex;
+}
+
+.deploy-input{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.stud-id-txt{
+  width: 288px;
+  height: 58px;
+  border: solid 2px rgba(0, 0, 0, 0.25);
+  font-family: 'Inter';
+  font-size: 20px;
+  border-radius: 18px;
+  margin-bottom: 35px;
+  padding-inline: 10px;
+}
+
+.confirm-btn{
+  display: block;
+  width: 160px;
+  height: 45px;
+  background-color: #F6C500;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Inter';
+  font-size: 20px;
+  transition: 300ms;
+  cursor: pointer;
+}
+
+.balance-popUp{
+  display: none;
+  flex-direction: column ;
+  position: fixed;
+  width: 617px;
+  height: 330px;
+  background-color: white;
+  border-radius: 20px;
+  align-items: center;
+}
+
+.balance-header{
+  width: 100%;
+  height: 70px;
+  background-color: #FDDD5C;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  display: flex;
+  justify-content: right;
+  padding-block: 10px;
+  align-items: center;
+}
+
+.balance-body{
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'inter';
+}
+
+.balance-input{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

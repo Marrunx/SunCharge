@@ -1,8 +1,5 @@
 <?php 
-session_start();
-if(empty($_SESSION['status'])){
-    header('Location: ../login.html');
-}
+$conn = mysqli_connect('localhost', 'root', '', 'suncharge');
 ?>
 
 <!DOCTYPE html>
@@ -10,27 +7,23 @@ if(empty($_SESSION['status'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RE:Charge | Card Manager</title>
 
     <link rel="stylesheet" href="style/main.css">
-    <link rel="stylesheet" href="style/cardManager.css">
     <link rel="stylesheet" href="style/nav.css">
-
-
-    <title>RE:Charge | Card Manager</title>
+    <link rel="stylesheet" href="style/cardManager.css">
 </head>
+
 <body>
     <div class="main">
         <div class="nav-bar">
             <h1>RE:Charge</h1>
             
+            <a href="lockerManager.php">Locker Manager</a>
             <a href="">Card Manager</a>
             <a href="accountSettings.php">Settings</a>
-            
-            <div>
             <a href="logout.php" id="log-out">Logout</a>
-            </div>
         </div>
-
 
 
         <div class="main-body">
@@ -38,266 +31,191 @@ if(empty($_SESSION['status'])){
 
             <div class="sub-container-wrapper">
                 <div class="tbl-container">
-                    
                         <table class="card-tbl" id="cards-table">
                             <thead>
                                 <th>Card No.</th>
-                                <th>Used by</th>
+                                <th>UID</th>
+                                <th>Status</th>
+                                <th>Used By</th>
                                 <th>Section</th>
-                                <th>Time Taken</th>
+                                <th>Balance</th>
+                                <th>Date taken</th>
                             </thead>
-
+                        </table>
+                        <div class="scrollable-body">
+                        <table class="scrollable-table" id="scrollable-table">
                             <tbody>
-                            <?php 
-                                    $conn = mysqli_connect('localhost', 'root', '', 'suncharge');
-                                    $sql = "SELECT * FROM tbl_card";
-                                    $qry = mysqli_query($conn, $sql);
+                                <?php 
+                                //display database data
+                                $cardListSql = "SELECT * FROM tbl_cardext";
+                                $cardListQry = mysqli_query($conn, $cardListSql);
+                                while($cardListData = mysqli_fetch_assoc($cardListQry)){
+                                
+                                $dateTaken = $cardListData['date_taken'];
+                                
+                                if($dateTaken != null){
+                                $dateTakenObj = new DateTime($dateTaken);
+                                $dateTakenStr = $dateTakenObj->format('M j, Y');
+                                }else if($dateTaken == null){
+                                    $dateTakenStr = "--/--/--";
+                                }
 
-                                    while($result = mysqli_fetch_assoc($qry)){         
-                                        $cardNumber = $result['card_number'];
-                                        $cardUID = $result['card_uid'];
-                                        $section = $result['section'];
-                                        if(is_null($result['used_by'])){
-                                            $cardUser = "none";
-                                        }else{
-                                            $cardUser = $result['used_by'];
-                                        }
-
-                                        if(is_null($result['time_taken'])){
-                                            $hours12 = "-- : --";
-                                        }else{
-                                            $cardTaken = $result['time_taken'];
-                                            $hours12 = date("h: i A", strtotime($cardTaken));
-                                        }
                                 ?>
                                 <tr>
-
-                                    <td><?php echo $cardNumber;?></td>
-                                    <td><?php echo $cardUser;?></td>
-                                    <td><?php echo $section?></td>
-                                    <td><?php echo $hours12;?></td>               
+                                    <td><?php echo$cardListData['card_number']?></td>
+                                    <td><?php echo$cardListData['card_uid']?></td>
+                                    <td><?php echo$cardListData['status']?></td>
+                                    <td><?php echo$cardListData['used_by']?></td>
+                                    <td><?php echo$cardListData['section']?></td>
+                                    <td><?php echo$cardListData['balance']?></td>
+                                    <td><?php echo$dateTakenStr?></td>
                                 </tr>
                                 <?php }?>
-                            </tbody>          
-                        </table>
-                        
-                </div>
-                
-                <div class="right-container">
-                    <div class="action-container">
-                        <div class="action-sub-container">
-                            <div class="side-label">
-                                <p>Card No.</p>
-                                <p>Used By</p>
-                                <p>Section</p>
-                                <p>Time Taken</p>
-                            </div>
-
-                            <div class="data-container" id="rowDetails">
-                                <p><span id="cardNumber"></span></p>
-                                <p id="cardUID"></p>
-                                <p id="cardUser"></p>
-                                <p id="cardSection"></p>
-                                <p id="cardTaken"></p>
-                            </div>
+                            </tbody>
                         </div>
-                        
-                        <button class="deploy-btn" id="deploy-btn">Deploy Card</button>
-                        <button class="return-btn" id="return-btn">Return Card</button>
-                    </div>
-                    <p class="sales" id="sales-btn">Sales report</p>
-                    <p class="history" id="history-btn">History</p>
+                        </table>
                 </div>
             </div> 
 
+            <div class="sub-container-bottom">
+                <div class="bottom-left">
+                    <button class="bottom-btn" id="add-card-btn">Add Card</button>
+                </div>
 
-        </div>
-    </div>
-
-    
-    <div class="dim-background" id="dim-background"></div>
-
-       <!--History-->
-
-    <div class="history-main" id="history-main">
-        <div class="history-head">
-            <h1>History</h1>
-            <img src="images/close.png" style="width: 4%; padding-right: 3%; cursor: pointer;" id="history-close">
-        </div>
-        <div class="history-tbl-head-container">
-            <table class="history-tbl-head">
-                <thead>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Section</th>
-                    <th>Time Taken</th>
-                    <th>Time Returned</th>
-                </thead>
-            </table>
-        </div>
-        
-        <div class="history-scrollable-body">
-            <table class="history-tbl-body">
-            <tbody>
-                <?php 
-                $historySql = "SELECT * FROM tbl_history";
-                $historyQry = mysqli_query($conn, $historySql);
-
-                while($historyData = mysqli_fetch_assoc($historyQry)){
-
-
-                //time conversion
-                $timeTaken = $historyData['time_taken'];
-                $timeReturned = $historyData['time_returned'];
-
-                $timeTakenFrmt = date("h: i A", strtotime($timeTaken));
-                $timeReturnedFrmt = date("h: i A", strtotime($timeReturned));
-                ?>
-                <tr>
-                    <td><?php echo $historyData['date']?></td>
-                    <td><?php echo $historyData['name']?></td>
-                    <td><?php echo $historyData['section']?></td>
-                    <td><?php echo $timeTakenFrmt?></td>
-                    <td><?php echo $timeReturnedFrmt?></td>
-                </tr>                
-                <?php }?>
-            </tbody>
-            </table>
-        </div>
-    </div>
-
-
-    <!--Sales report window-->
-    <div class="sales-main" id="sales-main">
-
-        <div class="sales-head">
-            <h1>Sales</h1>
-            <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="sales-close">
+                <div class="bottom-right">
+                    <div class="selected-row">
+                    <p>Selected Card: |<span id="selected-id" style="border: solid 1px; padding-inline: 20px;"></span></p>
+                    </div>
+                    <button class="bottom-btn" id="edit-card" disabled>Edit</button>
+                    <button class="bottom-btn" id="add-balance" disabled>Add Balance</button>
+                    <form method="post"class="bottom-right-form">
+                    <input type="text" name="selected-card-id" id="selected-card-id" hidden>
+                    <input type="submit" class="bottom-btn-return" name="return-card" id="return-card" value="Return Card"disabled>
+                    <button class="bottom-btn-missing" id="missing-card" disabled>Set as Missing</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
-        <div class="sales-tbl-head-container">
-            <table class="sales-tbl-head">
-                <thead class="sales-tbl-body">
-                    <th>Date</th>
-                    <th>Locker Charger 1</th>
-                    <th>Charger 2</th>
-                </thead>
-            </table>
+        <div class="dim-background" id="dim-background"></div>
+
+        <div class="locker-settings" id="locker-settings">
+            <h1>Add Card</h1>
+            <form action="" method="post" class="locker-forms">
+                <input type="text" id="uid-display"  placeholder="Scan Card to see UID" class="input-txt" name="cardUID">
+                <input type="submit" class="save-btn" name="addCard" value="Add Card">
+            </form>
         </div>
 
-        <div class="sales-scrollable-body">
-            <table class="sales-tbl-body">
-                <tbody>
-                    <?php 
-                    //get sales from database
-                    $sqlSales = "SELECT * FROM tbl_sales";
-                    $qrySales = mysqli_query($conn, $sqlSales);
-                    while($resultSales = mysqli_fetch_assoc($qrySales)){
-
-                        $dateSales = $resultSales['date'];
-                        $charger1Sales = $resultSales['charger1'];
-                        $charger2Sales = $resultSales['charger1'];
-                    ?>
-                    <tr>
-                        <td><?php echo$dateSales;?></td>
-                        <td>₱ <?php echo$charger1Sales?></td>
-                        <td>₱ <?php echo$charger2Sales?></td>
-                    </tr>
-                    <?php }?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!--Deploy pop up-->
-    <div class="deploy-popUp" id="deploy-popUp">
+        <div class="deploy-popUp" id="edit-popUp">
         <div class="deploy-header">
             <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="close-btn">
         </div>
         <div class="deploy-body">
-            <h1>Card No. <span id="cardUID2"></span></h1>
+            <h1>Card No.<span id="locker-number"></span></h1>
             <form action="" method="POST" class="deploy-forms">
-                <input type="text" value="" id="cardID" name="cardID" hidden>
                 <div class="deploy-input">
-                    <input type="text" name="customer_name" id="" class="stud-id-txt" placeholder="Name">
-                    <input type="text" name="section" id="" class="stud-id-txt" placeholder="Section">
-                  <input type="submit" value="Confirm" class="confirm-btn" name="deployCard">
+                    <input type="text" name="edit_id" id="edit-card-id" hidden>
+                    <input type="text" name="edit_name" id="" class="stud-id-txt" placeholder="Name">
+                    <input type="text" name="edit_section" id="" class="stud-id-txt" placeholder="Section">
+                  <input type="submit" value="Confirm" class="confirm-btn" name="edit-confirm">
+                </div>
+            </form>
+        </div>
+        </div>
+
+        <div class="balance-popUp" id="balance-popUp">
+        <div class="balance-header">
+            <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="close-btn">
+        </div>
+        <div class="balance-body">
+            <h1>Card No. 9<span id="locker-number"></span></h1>
+            <form action="" method="POST" class="deploy-forms">
+                <div class="balance-input">
+                    <input type="text" name="balance_id" id="balance-card-id" hidden>
+                    <input type="text" name="balance" id="" class="stud-id-txt" placeholder="Balance Value">
+                  <input type="submit" value="Confirm" class="confirm-btn" name="addBalance">
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="return-popUp" id="return-popUp">
-        <div class="return-header">
-            <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="return-close-btn">
-        </div>
 
-        <div class="return-body">
-            <h1>Card No. <span id="cardUID3"></span></h1>
-            <p>Are you sure you want to return this card?</p>
-            <div class="return-form">
-                <form action="" method="post">
-                    <input type="text" value="" id="cardID2" name="cardID2" hidden>
-                    <input type="submit" value="Confirm" class="return-confirm-btn" name="returnCard">
-                </form>
-                <button class="return-cancel-btn" id="return-cancel-btn">Cancel</button>
-            </div>
-        </div>
-    </div>
-
- 
-
-
-    <script src="javascript/cardManager.js" defer></script>
+    <script src="javascript/cardManager3.js" defer></script>
 </body>
 </html>
-<?php
-    if(isset($_POST['deployCard'])){
-        $cardID = $_POST['cardID'];
-        $name = $_POST['customer_name'];
-        $section = $_POST['section'];
-        
 
+<?php 
+$conn = mysqli_connect('localhost', 'root', '', 'suncharge');
+//adding card
+if(isset($_POST['addCard'])){
+    $cardUID = $_POST['cardUID'];
 
-        $sql = "UPDATE tbl_card SET used_by ='$name', section = '$section', time_taken = NOW() WHERE card_number = '$cardID'";
-        $qry = mysqli_query($conn, $sql);
-
-        echo"
-        <script>
-            alert('$name is now using the locker charger');
-            window.location.href = 'cardManager.php';
-        </script>";
-    }
-
-    if(isset($_POST['returnCard'])){
-        $card = $_POST['cardID2'];
-
-        //put current values in history table
-        $sqlID = "SELECT * FROM tbl_card WHERE card_number = '$card'";
-        $qryID = mysqli_query($conn, $sqlID);
-        $cardInfo = mysqli_fetch_assoc($qryID);
-
-            //values to put in history table
-
-        $cardNumber = $cardInfo['card_number'];
-        $name = $cardInfo['used_by'];
-        $section = $cardInfo['section'];
-        $timeTaken = $cardInfo['time_taken'];
-
-            //update history table;
-        $historySql = "INSERT INTO tbl_history VALUES ('', NOW(), '$cardNumber', '$name', '$section', '$timeTaken', NOW())";
-        $historyQry = mysqli_query($conn, $historySql);
-
-        //update values in database
-        $sql = "UPDATE tbl_card SET used_by = null, section = null, time_taken = null WHERE card_number = '$card'";
-        $qry = mysqli_query($conn, $sql);
-        
-        echo"
-        <script>
-            alert('Card no.$card has been returned.');
-            window.location.href = 'cardManager.php';
-        </script>
-        ";
-    }
+    $addSql = "INSERT INTO tbl_cardext VALUES ('', '$cardUID', 'Unused', null, null, null, null, '0')";
+    mysqli_query($conn, $addSql);
+    echo"
+    <script>
+        alert('A new card has been added');
+        window.location.href = 'cardManager.php';
+    </script>
+    ";
+}
 ?>
 
+<?php 
+//editing a card
+if(isset($_POST['edit-confirm'])){
+    $cardNumber = $_POST['edit_id'];
+    $name = $_POST['edit_name'];
+    $section = $_POST['edit_section'];
+
+    $sql = "UPDATE tbl_cardext SET status = 'Used', used_by = '$name', section = '$section', date_taken = NOW() WHERE card_number = '$cardNumber'";
+    mysqli_query($conn, $sql);
+
+    echo"
+    <script>
+        alert('Card #$cardNumber is now given to $name');
+        window.location.href = 'cardManager.php';
+    </script>
+    ";
+
+}
+//returning a card
+if(isset($_POST['return-card'])){
+    $cardNumber = $_POST['selected-card-id'];
+
+    $sqlReturn = "UPDATE tbl_cardext SET status = 'Unused', used_by = null, section = null, date_taken = null WHERE card_number = '$cardNumber'";
+    mysqli_query($conn, $sqlReturn);
+
+    echo"
+    <script>
+        alert('Card #$cardNumber has been returned');
+        window.location.href = 'cardManager.php';
+    </script>
+    ";
+}
+//adding balance
+if(isset($_POST['addBalance'])){
+    $cardNumber = $_POST['balance_id'];
+    $balance = $_POST['balance'];
+
+    //get balance
+    $getBalanceSql = "SELECT * FROM tbl_cardext WHERE card_number = '$cardNumber'";
+    $getBalanceQry = mysqli_query($conn, $getBalanceSql);
+    $getBalanceData = mysqli_fetch_assoc($getBalanceQry);
+    $currentBalance = $getBalanceData['balance'];
+
+    $newBalance = $balance + $currentBalance;
+
+    $balanceSql = "UPDATE tbl_cardext SET balance = '$newBalance' WHERE card_number = '$cardNumber'";
+    mysqli_query($conn, $balanceSql);
+
+    echo"
+    <script>
+        alert('$balance balance has been added to Card #$cardNumber');
+        window.location.href = 'cardManager.php'
+    </script>
+    
+    ";
+}
+?>

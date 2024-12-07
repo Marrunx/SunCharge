@@ -93,20 +93,21 @@ void sendUIDToServer(String uid) {
         int balance = getBalanceFromServer(uid);
         if (balance > 0) {
           Serial.println("Balance available. Unlocking locker...");
-
-
-          
-          resetBalance()
           toggleLock(); // Unlock locker if balance is available
+          resetBalance();
         } else {
           Serial.println("No balance available. Access Denied.");
           logAccessToServer(uid, "No Balance - Access Denied");
-          tone(buzzerPin, 1000, 500); // Beep to indicate denied access
+          digitalWrite(buzzerPin, HIGH);
+          delay(500);
+          digitalWrite(buzzerPin, LOW);
         }
       } else if (response.indexOf("\"status\":\"access_denied\"") != -1) {
         Serial.println("Access Denied.");
         logAccessToServer(uid, "Access Denied");
-        tone(buzzerPin, 1000, 500); // Beep to indicate denied access
+        digitalWrite(buzzerPin, HIGH);
+        delay(500);
+        digitalWrite(buzzerPin, LOW);
       }
     } else {
       Serial.println("Error on sending POST: " + String(httpResponseCode));
@@ -114,6 +115,7 @@ void sendUIDToServer(String uid) {
 
     http.end(); // Free HTTP resources
   } else {
+    
     Serial.println("WiFi Disconnected");
   }
 }
@@ -207,9 +209,26 @@ void toggleLock() {
   if (lockerIsLocked) {
     Serial.println("Locker is now Unlocked.");
     lockerIsLocked = false;
+
+    digitalWrite(buzzerPin, HIGH);
+    delay(100);
+    digitalWrite(buzzerPin, LOW);
+    delay(100);
+    digitalWrite(buzzerPin, HIGH);
+    delay(100);
+    digitalWrite(buzzerPin, LOW);
+    delay(100);
     digitalWrite(relayPin, LOW); // Activate relay (unlock locker)
+
     delay(5000); // Keep unlocked for 5 seconds
+
+    digitalWrite(buzzerPin, HIGH);
+    delay(300);
+    digitalWrite(buzzerPin, LOW);
+    delay(300);
     digitalWrite(relayPin, HIGH); // Deactivate relay (lock locker)
+
+    
     lockerIsLocked = true;
     Serial.println("Locker is now Locked.");
   } else {

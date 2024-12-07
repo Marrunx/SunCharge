@@ -18,7 +18,7 @@ if($result < 1){
     $_SESSION['status'] = 'logged-in';
     echo"
     <script>
-        window.location.href = 'admin/cardManager.php';
+        window.location.href = 'admin/lockerManager.php';
     </script>
     ";
 }
