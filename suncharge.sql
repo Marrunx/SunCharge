@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2024 at 11:18 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Dec 07, 2024 at 11:14 PM
+-- Server version: 8.0.40
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
-  `username` varchar(18) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `id` int NOT NULL,
+  `username` varchar(18) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -47,14 +47,14 @@ INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 --
 
 CREATE TABLE `tbl_card` (
-  `card_number` int(5) NOT NULL,
-  `card_uid` varchar(20) NOT NULL,
-  `used_by` varchar(50) DEFAULT NULL,
-  `section` varchar(11) DEFAULT NULL,
-  `time_taken` datetime DEFAULT current_timestamp(),
-  `locker_number` varchar(11) NOT NULL,
-  `card_balance` int(255) NOT NULL,
-  `coinslot_balance` int(255) NOT NULL
+  `card_number` int NOT NULL,
+  `card_uid` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `used_by` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `section` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `time_taken` datetime DEFAULT CURRENT_TIMESTAMP,
+  `locker_number` varchar(11) COLLATE utf8mb4_general_ci NOT NULL,
+  `card_balance` int NOT NULL,
+  `coinslot_balance` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -67,15 +67,39 @@ INSERT INTO `tbl_card` (`card_number`, `card_uid`, `used_by`, `section`, `time_t
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_cardext`
+--
+
+CREATE TABLE `tbl_cardext` (
+  `card_number` int NOT NULL,
+  `card_uid` varchar(255) NOT NULL,
+  `used_by` varchar(255) NOT NULL,
+  `section` varchar(255) NOT NULL,
+  `date_taken` date NOT NULL,
+  `locker_number` int NOT NULL,
+  `balance` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tbl_cardext`
+--
+
+INSERT INTO `tbl_cardext` (`card_number`, `card_uid`, `used_by`, `section`, `date_taken`, `locker_number`, `balance`) VALUES
+(1, '437939bb', 'Marlon', 'BSIT-4D', '2024-12-08', 1, 20),
+(2, '49c8b779', 'Ian', 'BSIT-4D', '2024-12-08', 2, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_history`
 --
 
 CREATE TABLE `tbl_history` (
-  `id` int(6) NOT NULL,
+  `id` int NOT NULL,
   `date` date NOT NULL,
-  `card_number` int(5) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `section` int(10) NOT NULL,
+  `card_number` int NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `section` int NOT NULL,
   `time_taken` datetime NOT NULL,
   `time_returned` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -109,12 +133,12 @@ INSERT INTO `tbl_history` (`id`, `date`, `card_number`, `name`, `section`, `time
 --
 
 CREATE TABLE `tbl_log` (
-  `action_id` int(11) NOT NULL,
-  `card_uid` varchar(255) NOT NULL,
+  `action_id` int NOT NULL,
+  `card_uid` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `action` varchar(20) NOT NULL
+  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `action` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -248,12 +272,12 @@ INSERT INTO `tbl_log` (`action_id`, `card_uid`, `date`, `time`, `description`, `
 --
 
 CREATE TABLE `tbl_sales` (
-  `transaction_id` int(11) NOT NULL,
+  `transaction_id` int NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
-  `locker_number` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `amount` int(11) NOT NULL
+  `locker_number` int NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `amount` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -320,25 +344,25 @@ ALTER TABLE `tbl_sales`
 -- AUTO_INCREMENT for table `tbl_card`
 --
 ALTER TABLE `tbl_card`
-  MODIFY `card_number` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `card_number` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_history`
 --
 ALTER TABLE `tbl_history`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1017;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1017;
 
 --
 -- AUTO_INCREMENT for table `tbl_log`
 --
 ALTER TABLE `tbl_log`
-  MODIFY `action_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `action_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT for table `tbl_sales`
 --
 ALTER TABLE `tbl_sales`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `transaction_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
