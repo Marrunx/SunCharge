@@ -8,9 +8,9 @@
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-const char* ssid = "OPPOA17"; // Replace with your WiFi SSID
-const char* password = "jjuralbal"; // Replace with your WiFi password
-const char* serverUrl = "http://192.168.249.63/SunChargeV2/function/scanned_uid.php"; // Replace with your server's URLC:\xampp\htdocs\ComputerRental\Revised\function
+const char* ssid = "PPLLLPP"; // Replace with your WiFi SSID
+const char* password = "1234556677"; // Replace with your WiFi password
+const char* serverUrl = "http://192.168.80.63/SunChargeV2/function/scanned_uid.php"; // Replace with your server's URLC:\xampp\htdocs\ComputerRental\Revised\function
                                                                                                 // Check IPv4 in CMD using IPConfig
                                                                                                 // C:\xampp\htdocs\SunChargeV2\function
 

@@ -1,5 +1,17 @@
 <?php 
 $conn = mysqli_connect('localhost', 'root', '', 'suncharge');
+
+
+
+
+// Clear the RFID log file on every page load
+$logFile = '../logs/rfid_logs.txt'; // Adjust the path if needed
+if (file_exists($logFile)) {
+    file_put_contents($logFile, ''); // Overwrite the file with an empty string
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -142,6 +154,7 @@ $conn = mysqli_connect('localhost', 'root', '', 'suncharge');
 
 
     <script src="javascript/cardManager3.js" defer></script>
+    <script src="../js/scan_uid.js" defer></script>
 </body>
 </html>
 
