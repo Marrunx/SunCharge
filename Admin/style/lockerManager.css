@@ -165,7 +165,7 @@ tbody tr{
     flex-direction: column ;
     position: fixed;
     width: 617px;
-    height: 340px;
+    height: 34s0px;
     background-color: white;
     border-radius: 20px;
     align-items: center;
@@ -345,7 +345,7 @@ tbody tr{
 /*Sales window*/
 .sales-main{
     display: none;
-    width: 715px;
+    width: 1080px;
     height: 694px;
     background-color: white;
     border-radius: 20px;

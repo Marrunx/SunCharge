@@ -4,6 +4,7 @@
 function addCard(){
     //add card button
     const addButton = document.getElementById('add-card-btn');
+    const addClose = document.getElementById('add-close');
 
     //add card forms window
     const addCardWindow = document.getElementById('locker-settings');
@@ -13,10 +14,16 @@ function addCard(){
         dimBackground.style.display = 'flex';
         addCardWindow.style.display = 'block';
     })
+
+    addClose.addEventListener('click', ()=>{
+        dimBackground.style.display = 'none';
+        addCardWindow.style.display = 'none';
+    })
 }
 
 function editCard(){
     const editButton = document.getElementById('edit-card');
+    const editClose = document.getElementById('edit-close')
 
     //edit window
     const editWindow = document.getElementById('edit-popUp');
@@ -27,10 +34,16 @@ function editCard(){
         dimBackground.style.display = 'flex';
         editWindow.style.display = 'block';
     })
+
+    editClose.addEventListener('click', ()=>{
+        dimBackground.style.display = 'none';
+        editWindow.style.display = 'none';
+    })
 }
 
 function addBalance(){
     const addBalanceButton = document.getElementById('add-balance');
+    const balanceClose = document.getElementById('bal-close');
 
     //balance window
     const dimBackground = document.getElementById('dim-background');
@@ -39,6 +52,11 @@ function addBalance(){
     addBalanceButton.addEventListener('click', ()=>{
         dimBackground.style.display = 'block';
         addBalWindow.style.display = 'flex';
+    })
+
+    balanceClose.addEventListener('click', ()=>{
+        dimBackground.style.display = 'none';
+        addBalWindow.style.display = 'none';
     })
 }
 
@@ -52,6 +70,10 @@ function rowSelector(){
 
         const selectedID = document.getElementById('selected-id')
         const hiddenBottom = document.getElementById('selected-card-id');
+
+        //Headers to display locker number
+        const headerEdit = document.getElementById('edit-header');
+        const headerBal = document.getElementById('bal-header')
         
         // Add a click event listener to the table
         table.addEventListener('click', function(event) {
@@ -63,11 +85,16 @@ function rowSelector(){
 
                 // Get the value of the first column in the row
                 const firstColumnValue = row.cells[0].textContent;
-                const status = row.cells[2].textContent;
+                const status = row.cells[1].textContent;
 
-                // Display the value in the H1 element
+                // Display the value in the headers
                 selectedID.textContent = firstColumnValue;
-                hiddenBottom.value = firstColumnValue;
+                hiddenBottom.value = firstColumnValue
+
+                //display the locker in headers
+                headerEdit.textContent = firstColumnValue;
+                headerBal.textContent = firstColumnValue;
+
 
                 //make all the buttons usable
                 document.getElementById('add-balance').removeAttribute('disabled');
@@ -103,4 +130,4 @@ function rowSelector(){
 rowSelector();
 addCard();
 addBalance(); 
-editCard(); 
+editCard();

@@ -3,6 +3,7 @@ const dimBackground = document.getElementById('dim-background');
 const deployWindow = document.getElementById('deploy-popUp');
 const returnWindow = document.getElementById('return-popUp');
 const activityWindow = document.getElementById('history-main');
+const salesWindow = document.getElementById('sales-main');
 
 //hidden text inputs in forms
 const lockerNumberHidden = document.getElementById('locker-number-forms');
@@ -10,12 +11,21 @@ const returnLockerHidden = document.getElementById('return-locker-hidden');
 
 //buttons
 const activityButton = document.getElementById('activity-log');
+const salesButton = document.getElementById('sales-record');
 
 //open activity log
 activityButton.addEventListener('click', ()=>{
     dimBackground.style.display = 'flex';
     activityWindow.style.display = 'flex';
 })
+
+//open sales record
+salesButton.addEventListener('click', ()=>{
+    dimBackground.style.display = 'block';
+    salesWindow.style.display = 'block';
+})
+
+
 
 //ALKSDJFHKLAJSDFHHJKLSDFAHJKLSDFHAJKLDFSHFJKLS POP UP PER ROWS
 // Wait until the DOM is loaded
@@ -66,4 +76,28 @@ const deployClose = document.getElementById('close-btn');
 deployClose.addEventListener('click', ()=>{
     dimBackground.style.display = 'none';
     deployWindow.style.display = 'none';
+})
+
+//close return window
+const returnClose = document.getElementById('return-close-btn');
+
+returnClose.addEventListener('click', ()=>{
+    dimBackground.style.display = 'none';
+    returnWindow.style.display = 'none';
+})
+
+//close activity log
+const activityClose = document.getElementById('activity-close');    
+
+activityClose.addEventListener('click', ()=>{
+    dimBackground.style.display = 'none';
+    activityWindow.style.display = 'none';
+})
+
+//close sales windows
+const salesClose = document.getElementById('sales-close');
+
+salesClose.addEventListener('click', ()=>{
+    dimBackground.style.display = 'none';
+    salesWindow.style.display = 'none';
 })

@@ -1,17 +1,10 @@
 <?php 
 $conn = mysqli_connect('localhost', 'root', '', 'suncharge');
 
-
-
-
-// Clear the RFID log file on every page load
 $logFile = '../logs/rfid_logs.txt'; // Adjust the path if needed
 if (file_exists($logFile)) {
     file_put_contents($logFile, ''); // Overwrite the file with an empty string
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +39,6 @@ if (file_exists($logFile)) {
                         <table class="card-tbl" id="cards-table">
                             <thead>
                                 <th>Card No.</th>
-                                <th>UID</th>
                                 <th>Status</th>
                                 <th>Used By</th>
                                 <th>Section</th>
@@ -75,7 +67,6 @@ if (file_exists($logFile)) {
                                 ?>
                                 <tr>
                                     <td><?php echo$cardListData['card_number']?></td>
-                                    <td><?php echo$cardListData['card_uid']?></td>
                                     <td><?php echo$cardListData['status']?></td>
                                     <td><?php echo$cardListData['used_by']?></td>
                                     <td><?php echo$cardListData['section']?></td>
@@ -103,16 +94,21 @@ if (file_exists($logFile)) {
                     <form method="post"class="bottom-right-form">
                     <input type="text" name="selected-card-id" id="selected-card-id" hidden>
                     <input type="submit" class="bottom-btn-return" name="return-card" id="return-card" value="Return Card"disabled>
-                    <button class="bottom-btn-missing" id="missing-card" disabled>Set as Missing</button>
                     </form>
+                    <button class="bottom-btn-missing" id="missing-card" disabled>Archive card</button>
                 </div>
             </div>
         </div>
 
+        
+
         <div class="dim-background" id="dim-background"></div>
 
         <div class="locker-settings" id="locker-settings">
-            <h1>Add Card</h1>
+            <div style="display: flex; align-items: center; justify-content: end; margin-inline: 40px; gap: 12%;" id="add-close">
+                <h1>Add Card</h1>
+                <img src="images/close.png" style="width: 10%; height: 10%;"alt="">
+            </div>
             <form action="" method="post" class="locker-forms">
                 <input type="text" id="uid-display"  placeholder="Scan Card to see UID" class="input-txt" name="cardUID">
                 <input type="submit" class="save-btn" name="addCard" value="Add Card">
@@ -121,10 +117,10 @@ if (file_exists($logFile)) {
 
         <div class="deploy-popUp" id="edit-popUp">
         <div class="deploy-header">
-            <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="close-btn">
+            <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="edit-close">
         </div>
         <div class="deploy-body">
-            <h1>Card No.<span id="locker-number"></span></h1>
+            <h1>Card No.<span id="edit-header"></span></h1>
             <form action="" method="POST" class="deploy-forms">
                 <div class="deploy-input">
                     <input type="text" name="edit_id" id="edit-card-id" hidden>
@@ -138,10 +134,10 @@ if (file_exists($logFile)) {
 
         <div class="balance-popUp" id="balance-popUp">
         <div class="balance-header">
-            <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="close-btn">
+            <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="bal-close">
         </div>
         <div class="balance-body">
-            <h1>Card No. 9<span id="locker-number"></span></h1>
+            <h1>Card No.<span id="bal-header"></span></h1>
             <form action="" method="POST" class="deploy-forms">
                 <div class="balance-input">
                     <input type="text" name="balance_id" id="balance-card-id" hidden>
@@ -150,6 +146,7 @@ if (file_exists($logFile)) {
                 </div>
             </form>
         </div>
+        
     </div>
 
 

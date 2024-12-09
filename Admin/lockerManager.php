@@ -12,7 +12,7 @@ $conn = mysqli_connect('localhost', 'root', '', 'suncharge');
 if(isset($_POST['deployCard'])){
 
     //check card ID of the UID;
-    $lockerID = $_POST['lockerID'];
+    $cardID = $_POST['cardID'];
     $cardNumber = $_POST['cardUID'];
 
     //search for card number in tbl_cardext
@@ -37,15 +37,16 @@ if(isset($_POST['deployCard'])){
     $expDate = date('Y-m-d', strtotime('+30 days'));
     
     
-    $sql = "UPDATE $LockerTable SET card_uid = '$cardUID', locker_status = 'Rented', used_by ='$name', section = '$section', card_number = '$cardNumber', locker_status='Rented',date_rented = NOW(), date_expired = '$expDate' WHERE locker_number = '$lockerID'";
+    $sql = "UPDATE $LockerTable SET card_uid = '$cardUID', locker_status = 'Rented', used_by ='$name', section = '$section', card_number = '$cardNumber', locker_status='Rented',date_rented = NOW(), date_expired = '$expDate' WHERE locker_number = '$cardID'";
     $qry = mysqli_query($conn, $sql);
 
-    $sqlLockerNumber = "UPDATE tbl_cardext SET locker_number = '$lockerID' WHERE card_uid = '$cardUID'";
-    mysqli_query($conn, $sqlLockerNumber);
-
     //log action into tbl_log
-    $logSql = "INSERT INTO tbl_log VALUES ('', '', NOW(), NOW(), '$name has rented locker number $lockerID', 'Rent')";
+    $logSql = "INSERT INTO tbl_log VALUES ('','', NOW(), NOW(), '$name has rented locker number $cardID', 'Rent')";
     mysqli_query($conn, query: $logSql);
+
+    //set locker number in cardext
+    $setLockerSql = "UPDATE tbl_cardext SET locker_number = '$cardID' WHERE card_uid = '$cardUID'";
+    mysqli_query($conn, $setLockerSql);
 
     echo"
     <script>
@@ -71,13 +72,13 @@ if(isset($_POST['returnCard'])){
     $logSql = "INSERT INTO tbl_log VALUES('','', NOW(), NOW(), 'Administrator has removed $name and Card $cardNumber from Locker Number $locker_number', 'Return')";
     mysqli_query($conn, $logSql);
 
-    //remove users in locker table
-    $sqlRemove = "UPDATE $LockerTable SET card_number = null, card_uid = '', locker_status ='Free', used_by = '', date_rented = '', date_expired = '', section = '', card_balance ='0', coinslot_balance = '0' WHERE locker_number  = '$locker_number'";
-    mysqli_query($conn, $sqlRemove);
-
-    //remove locker number in user card
+    //remove locker number in cardext
     $removeLockerSql = "UPDATE tbl_cardext SET locker_number = null WHERE card_number = '$cardNumber'";
     mysqli_query($conn, $removeLockerSql);
+
+    //remove users in locker table
+    $sqlRemove = "UPDATE $LockerTable SET card_number = '', card_uid = '', locker_status ='Free', used_by = '', date_rented = '', date_expired = '', section = '', card_balance ='0', coinslot_balance = '0' WHERE locker_number  = '$locker_number'";
+    mysqli_query($conn, $sqlRemove);
     echo"
     <script>
         alert('Card no.$card has been returned.');
@@ -189,7 +190,7 @@ if(isset($_POST['returnCard'])){
                 </div>
                 
                 <div class="container-bottom">
-                    <p>Sales Record</p>
+                    <p id="sales-record">Sales Record</p>
                     <p id="activity-log">Activity Log</p>
                 </div>
             </div> 
@@ -209,7 +210,7 @@ if(isset($_POST['returnCard'])){
             <h1>Locker No.<span id="locker-number"></span></h1>
             <form action="" method="POST" class="deploy-forms">
                 <div class="deploy-input">
-                    <input type="text" name="lockerID" id="locker-number-forms">
+                    <input type="text" name="cardID" id="locker-number-forms" hidden>
                     <input type="text" name="cardUID" id="" class="stud-id-txt" placeholder="Card Number">
                   <input type="submit" value="Confirm" class="confirm-btn" name="deployCard">
                 </div>
@@ -238,7 +239,7 @@ if(isset($_POST['returnCard'])){
     <div class="history-main" id="history-main">
         <div class="history-head">
             <h1>Activity Logs</h1>
-            <img src="images/close.png" style="width: 4%; padding-right: 3%; cursor: pointer;" id="history-close">
+            <img src="images/close.png" style="width: 4%; padding-right: 3%; cursor: pointer;" id="activity-close">
         </div>
         <div class="history-tbl-head-container">
             <table class="history-tbl-head">
@@ -283,15 +284,17 @@ if(isset($_POST['returnCard'])){
 
         <div class="sales-head">
             <h1>Sales</h1>
-            <img src="images/close.png" style="width: 7%; padding-right: 3%; cursor: pointer;" id="sales-close">
+            <img src="images/close.png" style="width: 5%; padding-right: 3%; cursor: pointer;" id="sales-close">
         </div>
 
         <div class="sales-tbl-head-container">
             <table class="sales-tbl-head">
                 <thead class="sales-tbl-body">
                     <th>Date</th>
-                    <th>Locker Charger 1</th>
-                    <th>Charger 2</th>
+                    <th>Time</th>
+                    <th>Charger Number</th>
+                    <th>Name</th>
+                    <th>Amount</th>
                 </thead>
             </table>
         </div>
@@ -306,13 +309,17 @@ if(isset($_POST['returnCard'])){
                     while($resultSales = mysqli_fetch_assoc($qrySales)){
 
                         $dateSales = $resultSales['date'];
-                        $charger1Sales = $resultSales['charger1'];
-                        $charger2Sales = $resultSales['charger1'];
+                        $charger1Sales = $resultSales['time'];
+                        $charger2Sales = $resultSales['locker_number'];
+                        $name = $resultSales['name'];
+                        $amount = $resultSales['amount']
                     ?>
                     <tr>
                         <td><?php echo$dateSales;?></td>
-                        <td>₱ <?php echo$charger1Sales?></td>
+                        <td><?php echo$charger1Sales?></td>
                         <td>₱ <?php echo$charger2Sales?></td>
+                        <td><?php echo$name?></td>
+                        <td><?php echo$amount?></td>
                     </tr>
                     <?php }?>
                 </tbody>
