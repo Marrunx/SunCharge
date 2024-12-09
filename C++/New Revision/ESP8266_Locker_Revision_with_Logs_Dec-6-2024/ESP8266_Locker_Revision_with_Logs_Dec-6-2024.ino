@@ -94,9 +94,7 @@ void sendUIDToServer(String uid) {
         if (balance > 0) {
           Serial.println("Balance available. Unlocking locker...");
 
-
-          
-          resetBalance()
+          resetBalance();
           toggleLock(); // Unlock locker if balance is available
         } else {
           Serial.println("No balance available. Access Denied.");

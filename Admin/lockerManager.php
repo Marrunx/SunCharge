@@ -12,7 +12,7 @@ $conn = mysqli_connect('localhost', 'root', '', 'suncharge');
 if(isset($_POST['deployCard'])){
 
     //check card ID of the UID;
-    $cardID = $_POST['cardID'];
+    $lockerID = $_POST['lockerID'];
     $cardNumber = $_POST['cardUID'];
 
     //search for card number in tbl_cardext
@@ -37,14 +37,14 @@ if(isset($_POST['deployCard'])){
     $expDate = date('Y-m-d', strtotime('+30 days'));
     
     
-    $sql = "UPDATE $LockerTable SET card_uid = '$cardUID', locker_status = 'Rented', used_by ='$name', section = '$section', card_number = '$cardNumber', locker_status='Rented',date_rented = NOW(), date_expired = '$expDate' WHERE locker_number = '$cardID'";
+    $sql = "UPDATE $LockerTable SET card_uid = '$cardUID', locker_status = 'Rented', used_by ='$name', section = '$section', card_number = '$cardNumber', locker_status='Rented',date_rented = NOW(), date_expired = '$expDate' WHERE locker_number = '$lockerID'";
     $qry = mysqli_query($conn, $sql);
 
-    $sqlLockerNumber = "UPDATE tbl_cardext SET locker_number = '1' WHERE card_uid = '$cardUID'";
+    $sqlLockerNumber = "UPDATE tbl_cardext SET locker_number = '$lockerID' WHERE card_uid = '$cardUID'";
     mysqli_query($conn, $sqlLockerNumber);
 
     //log action into tbl_log
-    $logSql = "INSERT INTO tbl_log VALUES ('', '', NOW(), NOW(), '$name has rented locker number $cardID', 'Rent')";
+    $logSql = "INSERT INTO tbl_log VALUES ('', '', NOW(), NOW(), '$name has rented locker number $lockerID', 'Rent')";
     mysqli_query($conn, query: $logSql);
 
     echo"
@@ -209,7 +209,7 @@ if(isset($_POST['returnCard'])){
             <h1>Locker No.<span id="locker-number"></span></h1>
             <form action="" method="POST" class="deploy-forms">
                 <div class="deploy-input">
-                    <input type="text" name="cardID" id="locker-number-forms" hidden>
+                    <input type="text" name="lockerID" id="locker-number-forms">
                     <input type="text" name="cardUID" id="" class="stud-id-txt" placeholder="Card Number">
                   <input type="submit" value="Confirm" class="confirm-btn" name="deployCard">
                 </div>
