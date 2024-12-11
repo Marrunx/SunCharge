@@ -106,7 +106,7 @@ function rowSelector(){
 
                 // Get the value of the first column in the row
                 const firstColumnValue = row.cells[0].textContent;
-                const status = row.cells[1].textContent;
+                const status = row.cells[2].textContent;
 
                 // Display the value in the headers
                 selectedID.textContent = firstColumnValue;
