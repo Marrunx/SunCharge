@@ -224,6 +224,10 @@ if(isset($_POST['return-card'])){
     $sqlReturn = "UPDATE tbl_cardext SET status = 'Unused', used_by = null, section = null, date_taken = null WHERE card_number = '$cardNumber'";
     mysqli_query($conn, $sqlReturn);
 
+    //delete balance
+    $balReset = "UPDATE tbl_cardext SET balance = '0' WHERE card_number = '$cardNumber'";
+    mysqli_query($conn, $balReset);
+
     echo"
     <script>
         alert('Card #$cardNumber has been returned');
