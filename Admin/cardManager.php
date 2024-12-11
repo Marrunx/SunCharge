@@ -152,7 +152,7 @@ if (file_exists($logFile)) {
         
         <div class="remove-popUp" id="remove-popUp">
             <img src="images/warning.png" style="height: 20%; margin-top: 20px;" alt="warning.png">
-            <h2>Are you sure you want to remove Card No.<span>9</span>? This will remove the card permanently.</h1>
+            <h2>Are you sure you want to remove Card No.<span id="remove-Header"></span>? This will remove the card permanently.</h1>
             <form action="" method="post">
                 <input type="hidden" name="remove-id"id="remove-card-id">
                 <input type="submit" name="removeCard"class="bottom-btn-missing" style="width: 120px; margin-inline: 20px;"value="Confirm">
