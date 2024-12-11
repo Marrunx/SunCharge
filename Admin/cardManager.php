@@ -174,6 +174,20 @@ $conn = mysqli_connect('localhost', 'root', '', 'suncharge');
 if(isset($_POST['addCard'])){
     $cardUID = $_POST['cardUID'];
 
+    //search for card UID if it exists already
+    $scanSql = "SELECT * FROM tbl_cardext WHERE card_uid = '$cardUID'";
+    $scanQry = mysqli_query($conn, $scanSql);
+    $scanResult = mysqli_num_rows($scanQry);
+
+    if($scanResult > 0){
+        echo"
+        <script>
+            alert('This card UID already exists.');
+            window.location.href = 'cardManager.php';
+        </script>
+        ";
+    }else{
+
     $addSql = "INSERT INTO tbl_cardext VALUES ('', '$cardUID', 'Unused', null, null, null, null, '0')";
     mysqli_query($conn, $addSql);
     echo"
@@ -181,7 +195,7 @@ if(isset($_POST['addCard'])){
         alert('A new card has been added');
         window.location.href = 'cardManager.php';
     </script>
-    ";
+    ";}
 }
 ?>
 
