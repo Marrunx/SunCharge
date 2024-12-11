@@ -211,7 +211,7 @@ if(isset($_POST['returnCard'])){
             <form action="" method="POST" class="deploy-forms">
                 <div class="deploy-input">
                     <input type="text" name="cardID" id="locker-number-forms" hidden>
-                    <input type="text" name="cardUID" id="" class="stud-id-txt" placeholder="Card Number">
+                    <input type="text" name="cardUID" id="" class="stud-id-txt" placeholder="Card Number" required>
                   <input type="submit" value="Confirm" class="confirm-btn" name="deployCard">
                 </div>
             </form>
@@ -256,7 +256,7 @@ if(isset($_POST['returnCard'])){
             <table class="history-tbl-body">
             <tbody>
                 <?php 
-                $historySql = "SELECT * FROM tbl_log";
+                $historySql = "SELECT * FROM tbl_log ORDER BY action_id DESC";
                 $historyQry = mysqli_query($conn, $historySql);
 
                 while($historyData = mysqli_fetch_assoc($historyQry)){
@@ -308,7 +308,7 @@ if(isset($_POST['returnCard'])){
                 <tbody>
                     <?php 
                     //get sales from database
-                    $sqlSales = "SELECT * FROM tbl_sales";
+                    $sqlSales = "SELECT * FROM tbl_sales ORDER BY transaction_id DESC";
                     $qrySales = mysqli_query($conn, $sqlSales);
                     while($resultSales = mysqli_fetch_assoc($qrySales)){
 
