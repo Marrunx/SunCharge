@@ -95,6 +95,7 @@ function rowSelector(){
         //Headers to display locker number
         const headerEdit = document.getElementById('edit-header');
         const headerBal = document.getElementById('bal-header')
+        const headerRemove = document.getElementById('remove-Header');
         
         // Add a click event listener to the table
         table.addEventListener('click', function(event) {
@@ -115,6 +116,7 @@ function rowSelector(){
                 //display the locker in headers
                 headerEdit.textContent = firstColumnValue;
                 headerBal.textContent = firstColumnValue;
+                headerRemove.textContent = firstColumnValue;
 
 
                 //make all the buttons usable

@@ -23,11 +23,12 @@ function fetchUID() {
         .then(data => {
             // Split by newlines and get the last UID
             const uids = data.trim().split('\n');
+            const lastUID = uids[uids.length - 1]; // Extract the last UID
 
             // Update the input with the last UID
             const uidDisplay = document.getElementById('uid-display');
             if (uidDisplay) {
-                uidDisplay.value = lastUID;
+                uidDisplay.value = lastUID; // Use the extracted lastUID
                 console.log("UID updated:", lastUID);
             } else {
                 console.error("Input field not found");
@@ -37,6 +38,7 @@ function fetchUID() {
             console.error('Error fetching UID:', error);
         });
 }
+
 
 // Fetch UID every 2 seconds
 setInterval(fetchUID, 2000);
