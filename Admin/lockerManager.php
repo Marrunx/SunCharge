@@ -265,9 +265,13 @@ if(isset($_POST['returnCard'])){
                 //time conversion
                 $time = $historyData['time'];
                 $timeTakenFrmt = date("h: i A", strtotime($time));
+
+                //date conversion
+                $dateHistoryObj = new DateTime($historyData['date']);
+                $dateHistoryStr = $dateHistoryObj->format('M j, Y');
                 ?>
                 <tr>
-                    <td><?php echo $historyData['date']?></td>
+                    <td><?php echo $dateHistoryStr?></td>
                     <td><?php echo $timeTakenFrmt?></td>
                     <td><?php echo $historyData['action']?></td>
                     <td><?php echo $historyData['description']?></td>
