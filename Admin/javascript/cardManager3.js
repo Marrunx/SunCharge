@@ -60,6 +60,25 @@ function addBalance(){
     })
 }
 
+function removeCard(){
+    const removeButton = document.getElementById('missing-card');
+    const removeClose = document.getElementById('remove-close');
+
+    //remove window
+    const dimBackground = document.getElementById('dim-background');
+    const removeWindow = document.getElementById('remove-popUp');
+
+    removeButton.addEventListener('click', ()=>{
+        dimBackground.style.display = 'block';
+        removeWindow.style.display = 'block';
+    })
+
+    removeClose.addEventListener('click', ()=>{
+        dimBackground.style.display = 'none';
+        removeButton.style.display = 'none';
+    })
+}
+
 function rowSelector(){
             // Get the table element
         const table = document.getElementById('scrollable-table');
@@ -70,6 +89,8 @@ function rowSelector(){
 
         const selectedID = document.getElementById('selected-id')
         const hiddenBottom = document.getElementById('selected-card-id');
+
+        const removeHidden = document.getElementById('remove-card-id');
 
         //Headers to display locker number
         const headerEdit = document.getElementById('edit-header');
@@ -114,6 +135,7 @@ function rowSelector(){
                 //insert into hidden text boxes
                 editHidden.value = firstColumnValue;
                 balHidden.value = firstColumnValue;
+                removeHidden.value = firstColumnValue;
 
                 //for edit forms
                 const usedBy = row.cells[2].textContent;
@@ -131,3 +153,4 @@ rowSelector();
 addCard();
 addBalance(); 
 editCard();
+removeCard();

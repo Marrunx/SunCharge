@@ -177,9 +177,9 @@ if(isset($_POST['returnCard'])){
                                     <td><?php echo $rentDateStr?></td>
                                     <td><?php echo $expirationStr?></td>
                                     <td><!--action buttons-->
-                                        <?php if($usedBy == !null){?>
+                                        <?php if($lockerStatus == "Rented"){?>
                                             <button class="return-btn" id="return-btn">Return</button>
-                                        <?php }else if($usedBy == null){?>
+                                        <?php }else{?>
                                             <button class="deploy-btn"id="deploy-btn<?php echo$cardNumber;?>">Deploy</button>    
                                         <?php }?>
                                     </td>       
@@ -293,7 +293,7 @@ if(isset($_POST['returnCard'])){
                     <th>Date</th>
                     <th>Time</th>
                     <th>Charger Number</th>
-                    <th>Name</th>
+                    <th>Card No. / Name</th>
                     <th>Amount</th>
                 </thead>
             </table>
@@ -312,22 +312,26 @@ if(isset($_POST['returnCard'])){
                         $charger1Sales = $resultSales['time'];
                         $charger2Sales = $resultSales['locker_number'];
                         $name = $resultSales['name'];
-                        $amount = $resultSales['amount']
+                        $amount = $resultSales['amount'];
+
+                        //date and time translation
+                        $timeSalesStr = date("h: i A", strtotime($charger1Sales));
+                        $dateSalesObj = new DateTime($dateSales);
+                        $dateSalesStr = $dateSalesObj->format('M j, Y');
+
                     ?>
                     <tr>
-                        <td><?php echo$dateSales;?></td>
-                        <td><?php echo$charger1Sales?></td>
-                        <td>₱ <?php echo$charger2Sales?></td>
+                        <td><?php echo$dateSalesStr;?></td>
+                        <td><?php echo$timeSalesStr?></td>
+                        <td><?php echo$charger2Sales?></td>
                         <td><?php echo$name?></td>
-                        <td><?php echo$amount?></td>
+                        <td>₱<?php echo$amount?></td>
                     </tr>
                     <?php }?>
                 </tbody>
             </table>
         </div>
     </div>
-
-    <!--Deploy pop up-->
 
 
         

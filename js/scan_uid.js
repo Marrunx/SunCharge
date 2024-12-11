@@ -23,7 +23,6 @@ function fetchUID() {
         .then(data => {
             // Split by newlines and get the last UID
             const uids = data.trim().split('\n');
-            const lastUID = uids[uids.length - 1] || "Please scan new UID Card.";
 
             // Update the input with the last UID
             const uidDisplay = document.getElementById('uid-display');

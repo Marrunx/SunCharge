@@ -38,7 +38,6 @@ if (file_exists($logFile)) {
         <div class="body">
             <div class="side-nav">
                 <p id="user-settings-btn">Change username and password</p>
-                <p id="locker-settings-btn">Locker settings</p>
             </div>
 
             <div class="selected-content">
@@ -49,14 +48,6 @@ if (file_exists($logFile)) {
                         <input type="password" name="password" class="input-txt" placeholder="New Password">
                         <input type="password" name="old-password" class="input-txt" placeholder="Old password">
                         <input type="submit" name="save-user" value="Save Changes" class="save-btn">
-                    </form>
-                </div>
-
-                <div class="locker-settings" id="locker-settings">
-                    <h1>Locker Settings</h1>
-                    <form action="" method="post" class="locker-forms">
-                        <input type="text" id="uid-display"  placeholder="Change locker UID" class="input-txt" name="locker1">
-                        <input type="submit" class="save-btn" name="save-locker" value="Save changes">
                     </form>
                 </div>
             </div>
@@ -129,46 +120,6 @@ if(isset($_POST['save-user'])){
     }
 }
 
-
-//save locker changes
-if(isset($_POST['save-locker'])){
-
-    $locker1 = $_POST['locker1'];
-
-    if(!empty($_POST['locker1']) && !empty($_POST['locker2'])){
-        $sqlUID1 = "UPDATE tbl_card SET card_uid = '$locker1' WHERE card_number = 1";
-        $qryUID1 = mysqli_query($conn, $sqlUID1);
-
-        $sqlUID2 = "UPDATE tbl_card SET card_uid = '$locker2' WHERE card_number = 2";
-        $qryUID2 = mysqli_query($conn, $sqlUID2);
-
-        echo"
-        <script>
-            alert('Changes has been saved.');
-        </script>
-        ";
-
-    }else if(!empty($_POST['locker1']) && empty($_POST['locker2'])){
-        $sqlUID1 = "UPDATE tbl_card SET card_uid = '$locker1' WHERE card_number = 1";
-        $qryUID1 = mysqli_query($conn, $sqlUID1);
-
-        echo"
-        <script>
-            alert('Changes has been saved.');
-        </script>
-        ";
-
-    }else if(empty($_POST['locker1']) && !empty($_POST['locker2'])){
-        $sqlUID2 = "UPDATE tbl_card SET card_uid = '$locker2' WHERE card_number = 2";
-        $qryUID2 = mysqli_query($conn, $sqlUID2);
-
-        echo"
-        <script>
-            alert('Changes has been saved.');
-        </script>
-        ";
-    }
-}
 ?>
 
 

@@ -39,6 +39,7 @@ if (file_exists($logFile)) {
                         <table class="card-tbl" id="cards-table">
                             <thead>
                                 <th>Card No.</th>
+                                <th>Card UID</th>
                                 <th>Status</th>
                                 <th>Used By</th>
                                 <th>Section</th>
@@ -67,6 +68,7 @@ if (file_exists($logFile)) {
                                 ?>
                                 <tr>
                                     <td><?php echo$cardListData['card_number']?></td>
+                                    <td><?php echo $cardListData['card_uid']?></td>
                                     <td><?php echo$cardListData['status']?></td>
                                     <td><?php echo$cardListData['used_by']?></td>
                                     <td><?php echo$cardListData['section']?></td>
@@ -95,7 +97,7 @@ if (file_exists($logFile)) {
                     <input type="text" name="selected-card-id" id="selected-card-id" hidden>
                     <input type="submit" class="bottom-btn-return" name="return-card" id="return-card" value="Return Card"disabled>
                     </form>
-                    <button class="bottom-btn-missing" id="missing-card" disabled>Archive card</button>
+                    <button class="bottom-btn-missing" id="missing-card" name="remove_card"disabled>Remove Card</button>
                 </div>
             </div>
         </div>
@@ -110,7 +112,7 @@ if (file_exists($logFile)) {
                 <img src="images/close.png" style="width: 10%; height: 10%;"alt="">
             </div>
             <form action="" method="post" class="locker-forms">
-                <input type="text" id="uid-display"  placeholder="Scan Card to see UID" class="input-txt" name="cardUID">
+                <input type="text" id="uid-display"  placeholder="Scan Card to see UID" class="input-txt" name="cardUID" required>
                 <input type="submit" class="save-btn" name="addCard" value="Add Card">
             </form>
         </div>
@@ -124,7 +126,7 @@ if (file_exists($logFile)) {
             <form action="" method="POST" class="deploy-forms">
                 <div class="deploy-input">
                     <input type="text" name="edit_id" id="edit-card-id" hidden>
-                    <input type="text" name="edit_name" id="" class="stud-id-txt" placeholder="Name">
+                    <input type="text" name="edit_name" id="" class="stud-id-txt" placeholder="Name" required>
                     <input type="text" name="edit_section" id="" class="stud-id-txt" placeholder="Section">
                   <input type="submit" value="Confirm" class="confirm-btn" name="edit-confirm">
                 </div>
@@ -144,6 +146,17 @@ if (file_exists($logFile)) {
                     <input type="text" name="balance" id="" class="stud-id-txt" placeholder="Balance Value">
                   <input type="submit" value="Confirm" class="confirm-btn" name="addBalance">
                 </div>
+            </form>
+        </div>
+        </div>
+        
+        <div class="remove-popUp" id="remove-popUp">
+            <img src="images/warning.png" style="height: 20%; margin-top: 20px;" alt="warning.png">
+            <h2>Are you sure you want to remove Card No.<span>9</span>? This will remove the card permanently.</h1>
+            <form action="" method="post">
+                <input type="hidden" name="remove-id"id="remove-card-id">
+                <input type="submit" name="removeCard"class="bottom-btn-missing" style="width: 120px; margin-inline: 20px;"value="Confirm">
+                <button class="bottom-btn" id="remove-close">Cancel</button>
             </form>
         </div>
         
@@ -220,12 +233,30 @@ if(isset($_POST['addBalance'])){
     $balanceSql = "UPDATE tbl_cardext SET balance = '$newBalance' WHERE card_number = '$cardNumber'";
     mysqli_query($conn, $balanceSql);
 
+    //insert into sales
+    $salesBal = "INSERT INTO tbl_sales VALUES ('', NOW(), NOW(), null, 'Card No.$cardNumber', '$balance')";
+    mysqli_query($conn, $salesBal);
+
     echo"
     <script>
         alert('$balance balance has been added to Card #$cardNumber');
         window.location.href = 'cardManager.php'
     </script>
     
+    ";
+}
+
+if(isset($_POST['removeCard'])){
+    $cardNumber = $_POST['remove-id'];
+
+    $removeSql = "DELETE FROM tbl_cardext WHERE card_number = '$cardNumber'";
+    mysqli_query($conn, $removeSql);
+
+    echo"
+    <script>
+        alert('Card No.$cardNumber has been remove in the card list');
+        window.location.href = 'cardManager.php';
+    </script>
     ";
 }
 ?>

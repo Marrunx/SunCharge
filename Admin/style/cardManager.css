@@ -309,3 +309,14 @@
   border-radius: 20px;
 }
 
+.remove-popUp{
+  display: none;
+  font-family: 'Inter';
+  position:absolute;
+  background-color: white;
+  width: 540px;
+  height: 240px;
+  text-align: center;
+  border-radius: 20px;
+  padding-inline: 20px;
+}
